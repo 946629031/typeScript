@@ -7,25 +7,25 @@
 ----
 
 目录
-- #### [1.TypeScript简介](#1TypeScript简介)
+- **[1.TypeScript简介](#1TypeScript简介)**
     - 安装 编译
-- #### [2.TS数据类型](#2TS数据类型)
+- **[2.TS数据类型](#2TS数据类型)**
     - `string  nummber  boolean  null  undefined  enum  symbol  any`
-- #### [3.联合类型](#3联合类型)
+- **[3.联合类型](#3联合类型)**
     - [3-2 接口 Interface](#3-2-接口-Interface) - `可选属性、只读属性、任意属性`
-- #### [4.数组类型](#4数组类型)
+- **[4.数组类型](#4数组类型)**
     - 数组表示法 `array[], Array<elemType>, 接口表示法`
-- #### [5.函数类型](#5函数类型)
+- **[5.函数类型](#5函数类型)**
     - 参数约束，返回值约束
-- #### [6.类型断言 (类型指定)](#6类型断言-(类型指定))
+- **[6.类型断言 (类型指定)](#6类型断言-(类型指定))**
     - 语法: `value as string , num as boolean`
-- #### [7.类型别名](#7类型别名)
+- **[7.类型别名](#7类型别名)**
     - `type Name = string | number`
-- #### [8.枚举 enum](#8枚举-enum)
+- **[8.枚举 enum](#8枚举-enum)**
     - `enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat }`
-- #### [9.class 类的修饰符](#9class-类的修饰符)
+- **[9.class 类的修饰符](#9class-类的修饰符)**
     - `public、private、protected、static`
-- #### [10.泛型](#10泛型)
+- **[10.泛型](#10泛型)**
     - 不预先指定具体类型，而在使用的时候再指定类型的一种特性
 - []()
 
