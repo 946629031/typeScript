@@ -1,7 +1,28 @@
 # TypeScript
-- [基于TypeScript从零重构axios](https://www.bilibili.com/video/BV13T4y1J74J)
-- [2020千锋TypeScript全套视频（程序员必备）](https://www.bilibili.com/video/BV1jJ411X7bi?p=1)
+- TypeScript 入门, 基础语法
+- 视频教程
+    - [基于TypeScript从零重构axios](https://www.bilibili.com/video/BV13T4y1J74J)
+    - [2020千锋TypeScript全套视频（程序员必备）](https://www.bilibili.com/video/BV1jJ411X7bi?p=1)
 
+----
+
+目录
+- [1.TypeScript简介](#1.TypeScript简介)
+- [2.TS数据类型](#2.TS数据类型)
+- [3.联合类型](#3.联合类型)
+    - [3-2 接口 Interface](#3-2-接口-Interface)
+        - `可选属性、只读属性、任意属性`
+- [4.数组类型](#4.数组类型)
+- [5.函数类型](#5.函数类型)
+- [6.类型断言 (类型指定)](#6.类型断言-(类型指定))
+- [7.类型别名](#7.类型别名)
+- [8.枚举 enum](#8.枚举-enum)
+- [9.class 类的修饰符](#9.class-类的修饰符)
+    - `public、private、protected、static`
+- [10.泛型](#10.泛型)
+- []()
+
+----
 # 1.TypeScript简介
 - ## 1-1.什么是TypeScript?
     - TypeScript 是 JavaScript 的一个超集，主要提供了`系统类型`和`对ES6的支持`。它由Microsoft开发，代码开源与Github上
