@@ -6,54 +6,106 @@
 
 ----
 
-目录
-- **[1.TypeScript简介](#1TypeScript简介)**
-    - 安装 编译
-- **[2.TS数据类型](#2TS数据类型)**
-    - `string  nummber  boolean  null  undefined  enum  symbol  any`
-- **[3.联合类型](#3联合类型)**
-    - [3-2 接口 Interface](#3-2-接口-Interface) - `可选属性、只读属性、任意属性`
-- **[4.数组类型](#4数组类型)**
-    - 数组表示法 `array[], Array<elemType>, 接口表示法`
-- **[5.函数类型](#5函数类型)**
-    - 参数约束，返回值约束
-- **[6.类型断言 (类型指定)](#6类型断言-类型指定)**
-    - 语法: `value as string , num as boolean`
-- **[7.类型别名](#7类型别名)**
-    - `type Name = string | number`
-- **[8.枚举 enum](#8枚举-enum)**
-    - `enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat }`
-- **[9.class 类的修饰符](#9class-类的修饰符)**
-    - `public、private、protected、static`
-- **[10.泛型](#10泛型)**
-    - 不预先指定具体类型，而在使用的时候再指定类型的一种特性
-- []()
+- 目录
+    - [第1章 TypeScript简介](#第1章-TypeScript简介)
+        - [1-1 TypeScript简介](#1-1-TypeScript简介)
+            - [1-什么是TypeScript](#1-什么是TypeScript)
+            - [2-TypeScript-的历史](#2-TypeScript-的历史)
+            - [3-TypeScript-出现的原因](#3-TypeScript-出现的原因)
+            - [4-TypeScript-的作用](#4-TypeScript-的作用)
+        - [1-2 TypeScript 的优点和缺点](#1-2-TypeScript-的优点和缺点)
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+
+        - 安装 编译
+    - [第2章 TS数据类型](#第2章-TS数据类型)
+        - `string  nummber  boolean  null  undefined  enum  symbol  any`
+    - [第3章 联合类型](#第3章-联合类型)
+        - [3-2 接口 Interface](#3-2-接口-Interface) - `可选属性、只读属性、任意属性`
+    - [第4章 数组类型](#第4章-数组类型)
+        - 数组表示法 `array[], Array<elemType>, 接口表示法`
+    - [第5章 函数类型](#第5章-函数类型)
+        - 参数约束，返回值约束
+    - [第6章 类型断言 (类型指定)](#第6章-类型断言-类型指定)
+        - 语法: `value as string , num as boolean`
+    - [第7章 类型别名](#第7章-类型别名)
+        - `type Name = string | number`
+    - [第8章 枚举 enum](#第8章-枚举-enum)
+        - `enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat }`
+    - [第9章 class 类的修饰符](#第9章-class-类的修饰符)
+        - `public、private、protected、static`
+    - [第10章 泛型](#第10章-泛型)
+        - 不预先指定具体类型，而在使用的时候再指定类型的一种特性
+    - []()
 
 ----
-# 1.TypeScript简介
-- ## 1-1.什么是TypeScript?
-    - TypeScript 是 JavaScript 的一个超集，主要提供了`系统类型`和`对ES6的支持`。它由Microsoft开发，代码开源与Github上
+# 第1章 TypeScript简介
+- ## 1-1 TypeScript简介
+    - ### 1 什么是TypeScript?
+        - TypeScript 是 JavaScript 的一个 `超集`
+        - 基于 `ES6 的语法`
+        - 提供 `类型系统` （这也是它之所以称之为 `TypeScript` 的原因）
+        <br><br>
 
-- ## 1-2.为何选择TypeScript
-    - TypeScript 增加了代码的`可读性`和`可维护性`
-        - 能像Java一样 对变量类型做约束，使得代码更严谨
-    - TypeScript 非常包容
-        - 举个例子
-        ```ts
-        // hello.ts
+    - ### 2 TypeScript 的历史
+        - 它由Microsoft开发，代码开源与Github上
+        - 微软在 2012年10月份 发布了 TypeScript 公开版本
+        - > 目标是用于 **`开发大规模`** JavaScript 应用
+    - ### 3 TypeScript 出现的原因
+        - 由于 JavaScript 是 `弱类型语言`
+        - 在代码执行之前 变量的类型是不确定的
+            - 它的`好处是 灵活`
+            - 坏处是 项目变大 之后，会增加程序员的负担，因为在我们使用 某一个属性、变量的时候，我们 **`无法确定变量当前的类型`**，这样会导致很多BUG
+            - 这也是微软 要开发 TypeScript 的原因之一
+    - ### 4 TypeScript 的作用
+        - TypeScript 提供超集编译期 类型检查
+        - 增强了 编辑器 和 IDE 的功能
+        > 在编译期 就暴露问题 <br>
+        > 让问题尽早暴露，而不是等到 上线之后才 暴露问题. ( **`减小 问题的影响范围`** )
 
-        console.log('hello')
-        var a:string = 1 // 错误提示：不能将类型“1”分配给类型“string”
-        ```
-        - 但是继续执行 `tsc hello.ts`后，虽然会有错误提示，但是仍然能编译
-        ```js
-        // hello.js
+- ## 1-2 TypeScript 的优点和缺点
+    - ### TypeScript 的优点
+        - 1 TypeScript 增加了代码的`可读性`和`可维护性`
+            - TypeScript 主要增加了 `类型系统`
+                - 它就是最好的文档，大部分函数 我们只要看一下 类型的定义，就知道 应该如何去调用它
+            - 能像Java一样 对变量类型做约束，使得代码更严谨
+        - 2 在编译阶段就可以发现大部分错误
+            - 这可以帮助我们 减少很多的BUG
+        - 3 TypeScript 非常包容
+            - 举个例子
+            ```ts
+            // hello.ts
 
-        console.log('hello');
-        var a = 1;
-        ```
+            console.log('hello')
+            var a:string = 1 // 错误提示：不能将类型“1”分配给类型“string”
+            ```
+            - 但是继续执行 `tsc hello.ts`后，虽然会有错误提示，但是仍然能编译
+            ```js
+            // hello.js
 
-    - TypeScript 拥有活跃的社区
+            console.log('hello');
+            var a = 1;
+            ```
+
+        - 4 TypeScript 拥有活跃的社区
+    - ### TypeScript 的缺点
+        - 1 学习成本，需要理解一些新的知识点，如 接口、泛型、枚举
+        - 2 开发成本
+            - 短期内 会增加一定的开发成本
+            - 但是长期来看 这些都是值得的
+        - 3 第三方库可能不支持
+    - ### 是否应该在项目中使用 TypeScript
+        - 使用 TypeScript 带来的收益是否大于其支出
+        - 就是想学习 TypeScript
+
 
 - ## 1-3.安装使用 TypeScript
     - 全局安装命令 `npm i -g typescript`
@@ -67,7 +119,7 @@
     - 约定文件以 `.ts` 为后缀，编写react时，以`.tsx`为后缀
     - 主流IDE中都支持TS，包括代码补全，接口提示，跳转定义，重构
 
-# 2.TS数据类型
+# 第2章 TS数据类型
 - ## 2-1.TypeScript 原始数据类型
     ```
     string  nummber  boolean  null  undefined  enum  symbol
@@ -120,7 +172,7 @@
             num2 = true
             ```
 
-# 3.联合类型
+# 第3章 联合类型
 - ## 3-1 联合类型
     - 联合类型 表示可以取值可以是多种类型中的一种
         ```ts
@@ -213,7 +265,7 @@
             obj4.age = 111  // age 报错: 只读属性一旦赋值后，就不可更改
             ```
 
-# 4.数组类型
+# 第4章 数组类型
 ## 数组表示法
 - 1.类型 + 方括号
     ```ts
@@ -275,7 +327,7 @@
         var arrType6: Istate[] = [{name: 'nick', age: 12}]      // 方括号表示法
         ```
 
-# 5.函数类型
+# 第5章 函数类型
 - 1.函数约束：参数约束，返回值约束
 - 2.函数本身赋值变量的约束
     ```ts
@@ -342,7 +394,7 @@
     ```
 
     
-# 6.类型断言 (类型指定)
+# 第6章 类型断言 (类型指定)
 - 1.类型断言 在复合类型中 可以用来手动 **指定一个值的类型**
     - 语法: `<类型>值` 或 `值 as 类型`
 - 2.在jsx语法 (React的jsx语法的ts版) 必须采用 `值 as 类型` 这种
@@ -368,7 +420,7 @@ console.log((num2 as boolean).length)
 // 转联合类型中 不存在的 boolean类型，就报错
 ```
     
-# 7.类型别名
+# 第7章 类型别名
 - 1.类型别名可以用来给一个类型起一个新的名字
     - 语法: 关键字 type, 例如 `type Name = string | number`
     - 例子中的 `Name` 就表示可设置字符串和数值类型
@@ -408,7 +460,7 @@ getSex('male')  // 无报错, 且写到 '' 引号内时，会自动提示 字符
 ```
 
 
-# 8.枚举 enum
+# 第8章 枚举 enum
 - 1.枚举 (enumerate) 类型用于取值被限定在一定范围内的场景
     - 关键字: enum
     - 例如: `enum Days { Sun, Mon, Tue, Wed, Thu, Fri, Sat }`
@@ -484,7 +536,7 @@ console.log(Days2)
 ```
 
 
-# 9.class 类的修饰符
+# 第9章 class 类的修饰符
 ```
 public
 private
@@ -590,7 +642,7 @@ console.log(p.name) // 当一个类成员变量没有被修饰的时候，外界
     Child.test()  // 静态方法 可以直接通过 Class类 来访问
     ```
 
-# 10.泛型
+# 第10章 泛型
 - ### 什么是泛型？
     - 泛型是指 在定义 函数、接口、类 的时候，不预先指定具体类型，而在使用的时候再指定类型的一种特性
 - 先看个例子
