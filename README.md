@@ -1,9 +1,20 @@
 # TypeScript
 - TypeScript 入门, 基础语法
+- [TypeScript 官网 typescriptlang.org](https://www.typescriptlang.org/)
 - 视频教程
+    - [【慕课】2小时极速入门 TypeScript](https://www.imooc.com/learn/1306)
     - [基于TypeScript从零重构axios](https://www.bilibili.com/video/BV13T4y1J74J)
     - [2020千锋TypeScript全套视频（程序员必备）](https://www.bilibili.com/video/BV1jJ411X7bi?p=1)
-
+- 小技巧
+    - [ts和vscode设置中文错误提示](https://blog.csdn.net/promiseCao/article/details/109578886)
+        - vscode设置中文错误提示需要打开设置页面，搜索“typescript local”，然后设置中文就行了
+----
+- 提示
+    - 在项目中的 `pageage.json` 里
+        - 如果有 `@types/...` 开头的依赖包, 如: `'@types/react-native-vector-icons': '^6.4.1'` 
+        - 这种是 `第三方库 的 类型声明` 
+        - 只有我们使用了这种 `第三方库 的 类型声明`， 当我们在 IDE 中编写代码的时候，这个组件 `有那些属性是必选的、那些属性是可选的、它的类型是什么？`
+        - 这样编辑器 才能给我们 `提示 对应的信息`, 减少错误的发生, 减少BUG
 ----
 
 - 目录
@@ -14,20 +25,18 @@
             - [3-TypeScript-出现的原因](#3-TypeScript-出现的原因)
             - [4-TypeScript-的作用](#4-TypeScript-的作用)
         - [1-2 TypeScript 的优点和缺点](#1-2-TypeScript-的优点和缺点)
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-
-        - 安装 编译
+        - [1-3 安装使用 TypeScript](#1-3-安装使用-TypeScript)
     - [第2章 TS数据类型](#第2章-TS数据类型)
         - `string  nummber  boolean  null  undefined  enum  symbol  any`
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
+        - []()
     - [第3章 联合类型](#第3章-联合类型)
         - [3-2 接口 Interface](#3-2-接口-Interface) - `可选属性、只读属性、任意属性`
     - [第4章 数组类型](#第4章-数组类型)
@@ -49,16 +58,19 @@
 ----
 # 第1章 TypeScript简介
 - ## 1-1 TypeScript简介
+    - ![](./img/1-1.typescript.jpg)
     - ### 1 什么是TypeScript?
         - TypeScript 是 JavaScript 的一个 `超集`
         - 基于 `ES6 的语法`
         - 提供 `类型系统` （这也是它之所以称之为 `TypeScript` 的原因）
+        - > 注意: TypeScript 无法在浏览器中运行, 所以 TypeScript 要经过 编辑 (Compile) 成为 JavaScript 才行
+        - ![](./img/1-1-1.jpg)
         <br><br>
 
     - ### 2 TypeScript 的历史
         - 它由Microsoft开发，代码开源与Github上
         - 微软在 2012年10月份 发布了 TypeScript 公开版本
-        - > 目标是用于 **`开发大规模`** JavaScript 应用
+        - > 目标是用于 **`开发大规模`** JavaScript 应用, 更强大、更健壮、更容易维护 的大型项目
     - ### 3 TypeScript 出现的原因
         - 由于 JavaScript 是 `弱类型语言`
         - 在代码执行之前 变量的类型是不确定的
@@ -72,8 +84,8 @@
         > 让问题尽早暴露，而不是等到 上线之后才 暴露问题. ( **`减小 问题的影响范围`** )
 
 - ## 1-2 TypeScript 的优点和缺点
-    - ### TypeScript 的优点
-        - 1 TypeScript 增加了代码的`可读性`和`可维护性`
+    - ### TypeScript 的优点 - `Typing 强类型`
+        - 1 规范我们的代码。TypeScript 增加了代码的`可读性`和`可维护性`
             - TypeScript 主要增加了 `类型系统`
                 - 它就是最好的文档，大部分函数 我们只要看一下 类型的定义，就知道 应该如何去调用它
             - 能像Java一样 对变量类型做约束，使得代码更严谨
@@ -94,8 +106,57 @@
             console.log('hello');
             var a = 1;
             ```
-
         - 4 TypeScript 拥有活跃的社区
+        - 5 再举个例子
+            - 我们在进行 `加法运算` 的时候, `a + b`
+                - JavaScript 不会对 a, b变量的类型进行检查，如果是字符串就 就将字符串 相链接，如
+                    ```js
+                    var a = '10'
+                    var b = '5'
+                    console.log(a + b) // 返回 '105'
+                    ```
+                - 而这 在某些 时刻却是不符合 预期的 （例如我们希望做的是加法运算时），也容易导致很多的BUG
+                - 所以 就衍生出了以下解决方案
+                    ```js
+                    function add (a, b) {
+                        if (typeof a === 'number' && typeof b === 'number') {
+                            return a + b
+                        } else {
+                            return +a + +b  // String 类型前面 放个 + 号，会自动转成 Number 类型
+                        }
+                    }
+                    ```
+                - 这就导致了 额外的工作量，和 低水平的重复 
+            - TypeScript 带来的好处
+                - 自动进行 `类型检查`
+                - 避免低级错误
+                - 解放劳动力
+        - 6 TeypScript 提示健全
+            - 当鼠标放在 `.js` 文件的 函数形参 上时
+                - ![](./img/1-1-6.jpg)
+            - 当鼠标放在 `.ts` 文件的 函数形参 上时
+                - ![](./img/1-1-7.jpg)
+
+            ```ts
+            var button = document.querySelector('button');
+            var a = document.getElementById('a') as HTMLInputElement;
+            var b = document.getElementById('b') as HTMLInputElement;
+
+            function add (a:number, b:number) {
+                return a + b
+            }
+
+            button.addEventListener('click', () => {
+                console.log(add(+a.value, +b.value))
+            })
+            ```
+            - 关键词 `as` + 类型 ==> 强制类型转换
+            - 告诉代码，我100% 确定 a 变量的类型
+            - 如下
+                - 没加 as 的时候
+                    - ![](./img/1-1-8.jpg)
+                - 加了 as 的时候
+                    - ![](./img/1-1-9.jpg)
     - ### TypeScript 的缺点
         - 1 学习成本，需要理解一些新的知识点，如 接口、泛型、枚举
         - 2 开发成本
@@ -107,7 +168,7 @@
         - 就是想学习 TypeScript
 
 
-- ## 1-3.安装使用 TypeScript
+- ## 1-3 安装使用 TypeScript
     - 全局安装命令 `npm i -g typescript`
     - 编译文件 `tsc hello.ts`
     - 查看TS版本 
@@ -120,10 +181,24 @@
     - 主流IDE中都支持TS，包括代码补全，接口提示，跳转定义，重构
 
 # 第2章 TS数据类型
-- ## 2-1.TypeScript 原始数据类型
-    ```
-    string  nummber  boolean  null  undefined  enum  symbol
-    ```
+- ## 2-1.TypeScript 数据类型分类
+    - [【文档】Basic Types](https://www.typescriptlang.org/docs/handbook/basic-types.html)
+    - ### 基础类型 Basic Types
+        ```
+        string  nummber  boolean  null  undefined  array  object  symbol
+
+        enum  tuple  void  never any
+        ```
+    - ### 高级类型
+        ```
+        union 组合类型
+
+        Nullable 可空类型
+
+        Literal 预定义类型
+
+        ...
+        ```
     - 空值一般采用 `void` 来表示，void可以表示变量，也可以表示函数返回值
     - 举例
     ```ts
@@ -146,6 +221,212 @@
 
     var num2:void = 3 // 报错: 不能将类型“3”分配给类型“void”
     ```
+
+- ## 2-2.Number, Boolean, String
+    - Number 数字类型
+        - TypeScript 对数字的定义 只有一个很笼统的 number 来表示 (基于JS的灵活性 继承过来的)
+        - 既能表示整数、也能表示浮点数，甚至也可以表示正负数
+        - 例如：`1, 5.3, -10`
+        - 举例
+            ```ts
+            let num1: number = 5 // 显式指定类型
+            let num2 = 1         // 自动进行 类型推断
+            ```
+    - String 字符串类型
+        - ```"hello", '  hello', `hello` ```
+        - 反引号: ``` `` ```, 可以创建一个字符串模版
+        - 与 JavaScript 一致
+
+        - 举例
+            ```ts
+            let firstName: string = '阿雷克斯'
+            let str = `我叫${firstName}`
+            ```
+    - Boolean 布尔类型
+        - 真假 `true, false`
+        - 处理判断逻辑
+        ```ts
+        let isTrue = true
+        let isFalse: boolean = false
+        ```
+- ## 2-3.Array数组 和 Tuple元组
+    - Array 数组类型
+        - `[]`
+        - 数组中 可以存放任意类型的数据
+        - JS中数组的宽容度非常大，而TS也 很好的继承了这一点
+        - 举例
+            ```ts
+            let list1 = [1,2,3,4]           // 会自动进行 类型推断
+            let list2: number[] = [1,2,3,4]
+            let list3: Array<number> = [1,2,3,4]
+            // 这三种声明方式完全等价，都是声明 一个 number 类型的 数组
+
+
+            // 声明 任意类型 数组
+            let list4 = [1, 'ddd']  // 不显式指定类型, 但是 声明变量的同时 赋值不同类型 给数组。鼠标放到变量上 会显示 let list4: (string | number)[]
+            let list5: any[] = [1, 'dds', true]  // 显式声明 任意类型 数组
+            ```
+    - tuple 元组类型
+        - 读音: Tiu破，踏破 [ˈtjʊpəl; ˈtʌpəl]
+        - 元组 是一个特殊的 数组, 它是 **`固定长度，固定类型`** 的
+        - 声明元组时，一定要指明数据类型
+        - 举例
+            ```ts
+            // 元组 tuple
+            let person: [number, string] = [1, 'alex']          // 鼠标 hover 上去，显示 let person: [number, string]
+            person[0] = 'ddd'  // 不能将类型“string”分配给类型“number”
+            person[1] = 1      // 不能将类型“number”分配给类型“string”
+            person[2] = 111    // 不能将类型“111”分配给类型“undefined”
+            ```
+        - 那么这个 固定长度 固定类型 的元组 有什么好处呢？
+            - 如果这个 person 用于存放学生
+                - 那么我们可以 `person[0]` 用于存放 学号
+                - `person[0]` 用于存放 学生姓名
+                - 这样 就自然形成了 `key - value` 的键值对 对应关系
+                - 非常有利于 我们在代码中 进行逻辑判断 和 数据处理
+        - 注意: tuple 现在还存在 **`BUG`**
+            ```ts
+            person[2] = 3   // 取下标为2的值, 这样 会报错
+            person.push(3)  // 这样不会报错, IDE 和 编译 都可以通过
+            // 这里是 有问题的，因为 person 已经固定 长度了，是2个长度，但是现在又可以 放3个元素 在里面
+            ```
+        - 声明元组时，一定要指明数据类型
+            - 如
+            ```ts
+            let person2 = [1, 'alex']  // let person2: (string | number)[]
+            // 否则，我们声明后发现 person `变成 数组` 了
+            
+            person2[0] = 'ddd'  // 都可以正常赋值
+            person2[1] = 1      // 都可以正常赋值
+            person2[2] = 111    // 都可以正常赋值
+            ```
+
+- ## 2-4.Union联合 和 Literal类型
+    - Union 联合类型
+        - 一个变量 可以同时支持 两个 甚至多个 不同的 类型
+            ```ts
+            let union : string | number
+
+            union = 2
+            union = 'alex'
+            union = true    // 不能将类型“boolean”分配给类型 “string | number”
+
+
+
+            let union2 : number | string | boolean | string[]
+            ```
+        - 例2
+            - 先看一下 之前的一个 加法函数
+                ```ts
+                function merge (n1: number, n2: number) {
+                    return n1 + n2
+                }
+
+                let mergeNumber = merge(2, 5)
+                ```
+            - 如果我们希望拓展一下这个函数，希望它 既可以 做加法，也可以做 字符串合并。 改如何做呢？
+                ```ts
+                function merge (n1: number | string, n2: number | string) {
+                    if (typeof n1 === 'string' || typeof n2 === 'string')
+                        return n1.toString() + n2.toString()
+                    else
+                        return n1 + n2
+                }
+
+                let mergeNumber = merge(2, 5)               //  7
+                let mergeString = merge('hello', 'world')   //  helloworld
+                ```
+        - **`确定值的 联合 Union`**
+            ```ts
+            let union : 0 | 1 | 2   // 确定值的联合，一旦 指定之后, 该变量 就只能取 这3个值 中的一个
+            union3 = 4  // 不能将类型“4”分配给类型 “0 | 2 | 1”
+
+            // 那么 像这种 明确取值的类型 就是 字面量类型 Literal
+            ```
+    - Literal 字面量类型
+        ```ts
+        let number3 = 4
+        let union : 0 | 1 | 2
+        let literal : 1 | '2' | true | [1,2,3,4]
+        ```
+        > 当我们把 字面量类型 和 联合类型 结合起来使用的时候，就能够产生 非常强大的 代码逻辑
+        ```ts
+        // 我们再来改造一下 上面的 加法函数
+        function merge (
+            n1: number | string,
+            n2: number | string,
+            resultType: 'as-number' | 'as-string'
+        ) {
+            if (resultType === 'as-string') {
+                return n1.toString() + n2.toString()
+            }
+            if (typeof n1 === 'string' || typeof n2 === 'string')
+                return n1.toString() + n2.toString()
+            else
+                return n1 + n2
+        }
+
+        let mergeNumber = merge(2, 5, 'as-number')  // 7
+        let mergeNumber = merge(2, 5, 'as-string')  // 25
+        let mergeNumber = merge('hello', 'world')   // helloworld
+        ```
+
+- ## 2-5.Enum枚举
+    > Java, C# 语言 都有 Enum枚举类型，但是 JavaScript 没有 <br><br>
+    > 虽然在 ES3 中，就把 Enum 这个关键字 保留了，但是  JavaScript 并没有 枚举这个概念，也没有真正的实用过
+    - Enum 枚举类型
+        - 读音：`[ɪˌnjuːm]`, 类似于: eNum
+        - 枚举类型 究竟是什么呢？下面我们来看代码
+            ```ts
+            enum Color {
+                red,
+                green,
+                blue
+            }
+
+            // 使用该 枚举类型
+            let color = Color.blue  // 2
+            console.log(color)
+            ```
+            - 鼠标 hover 到 red 上
+                - ![](./img/2-5.jpg)
+            - > 默认情况下，枚举类型 **`真正的类型`** 是 `Number `   (与 C++ 非常类似)
+                ```ts
+                // 默认情况下
+                enum Color {
+                    red,        // 0
+                    green,      // 1
+                    blue        // 2
+                }
+                ```
+        - 指定数据
+            - 当然，除了默认情况下，我们还可以 指定数据，如
+                ```ts
+                enum Color {
+                    red = 5,    // 5
+                    green,      // 6
+                    blue        // 7
+                }
+
+                // 这种特性 与 C++ 也完全一致
+                ```
+            - 我们还可以
+                ```ts
+                enum Color {
+                    red = 5,        // 5
+                    green = 10,     // 10
+                    blue =  1       // 1
+                }
+                ```
+            - 还可以 指定 别的数据类型
+                ```ts
+                enum Color {
+                    red = 'red',        // 'red'
+                    green = 'green',    // 'green'
+                    blue =  1           // 1
+                }
+                ```
+    > 总结: TypeScript 的 Enum 枚举类型 非常强大，配合 Switch 语句 非常好用
 - ## 2-2.TypeScript 中的任意值
     - 任意值 ( Any ) 用来表示允许赋值为任意类型
     - 声明一个变量为任意值后，对它的任何操作，返回的内容的类型都是任意值
