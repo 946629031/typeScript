@@ -74,3 +74,36 @@ randomValue = 'alex'
 randomValue = {}
 randomValue()
 randomValue.toUpperCase()
+
+
+
+
+
+
+// Void
+function printResult () : void {
+    console.log('lalala')
+}
+
+
+// Void
+function printResult2 () : undefined {
+    console.log('lalala')
+}
+
+
+// never
+function throwError (message: string, errorCode: number) {
+    throw {
+        message,
+        errorCode
+    }
+}
+throwError('not found', 404)
+
+
+function whileLoop () : never {
+    while (true) {
+        console.log('haha')
+    }
+}

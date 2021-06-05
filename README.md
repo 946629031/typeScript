@@ -528,6 +528,102 @@
         > - Unknown 比 Any 更保险一点, 可以 **`保证类型安全`**
         > - 也能拥有 Any 的 **`灵活性`** <br>
         > &nbsp;
+
+- ## 2-7 Void Undefined Never
+    - ### Void
+        - 什么是 Void 类型
+            - ![](./img/2-7.jpg)
+                - IDE 告诉我们, 一个函数 在没有任何返回的情况下, 返回值 就是一个 `void` 类型
+            ```ts
+            function printResult () : void {        // 显式指定 返回 void 类型
+                console.log('lalala')
+            }
+            ```
+        - 但是, 在JavaScript 中, 是没有 Void 类型 对应的表述的
+            - > 在实际执行 代码时, void 实际上返回的是 undefined
+            ```ts
+            function printResult () : void {        // 显式指定 返回 void 类型
+                console.log('lalala')
+            }
+
+            console.log('hello', printResult())     // hello, undefined
+            ```
+    - ### Undefined
+        - 那么 Void 和 Undefined 有什么区别呢 ?
+            - 如果我们把 函数 的返回值, 从 void 改为 undefined, IDE 就会报错
+            - `A function whose declared type is neither 'void' nor 'any' must return a value.`
+            - ![](./img/2-7-1.jpg)
+        - 区别
+            - 它们的区别, 实际上是 在探讨 `某一个物质 是否存在的问题`
+                - 虽然它们都表示 不存在
+            > &nbsp;<br>
+            > Undefined
+            > - Undefined 是值的一个类型
+            > - Undefined 说的 不存在, 指的是 物质不存在 <br>
+            > - undefined 在代码中 指的是, 一个变量 声明了, 但是没有被 赋值, 则默认为 undefined <br>
+            > &nbsp;
+
+            > &nbsp;<br>
+            > Void
+            > - Void 连一个 值 都不是
+            > - Void 说的 不存在, 是指 存在本身 不存在 <br>
+            > - void 在代码中 指的是, 某个变量 根本不存在 <br>
+            > &nbsp;
+        - 那么 上面的代码, 我们如何修改 才能让它 既不报错, 也能返回 undefined 呢 ?
+            - 加一个 `return`
+            ```ts
+            function printResult () : undefined {
+                console.log('lalala')
+                return                  // return 空值 默认返回 undefined
+            }
+            ```
+
+            > 在 JavaScript 中, 是没有 Void 这个类型的 <br>
+            > 在 TypeScript 中, 所有的 Void 编译成 JS 执行后, 都是返回 undefined
+    - ### Never
+        > **`一个函数 永远都执行不完, 这就是 never 的本质`**
+        - 先看代码
+            ```ts
+            function throwError (message: string, errorCode: number) {
+                throw {
+                    message,
+                    errorCode
+                }
+            }
+            throwError('not found', 404)
+            ```
+        - 那么, 这个函数 是什么类型呢 ?
+            - ![](./img/2-7-2.jpg)
+            - 从上图 可以得知 `throwError 函数` 默认返回 `void`
+            - 但是因为我们 抛出了异常, 
+                - 也就是说, 这个函数 不仅没有返回值
+                - 而且 这个函数 它永远都不可能 执行完成
+                    - 因为每次 执行到 throw 这里的时候，都会直接抛出异常, 函数强行结束了
+                    - 也就是说, 这个函数 永远都不会 执行到 第101行
+            - **`所以 这个函数 真正的类型 应该是 never`**
+            - 也就是
+                ```ts
+                function throwError (message: string, errorCode: number) : never {
+                    throw {
+                        message,
+                        errorCode
+                    }
+                }
+                throwError('not found', 404)
+                ```
+        > **`一个函数 永远都执行不完, 这就是 never 的本质`**
+        - 思考: 除了这种 `throw` 抛出异常的情况之外, 还有什么方法能够 让函数 永远保持无法执行完 的状态呢 ?
+        - 答: **`while 循环`**
+            ```ts
+            function whileLoop () : never {
+                while (true) {
+                    console.log('haha')
+                }
+            }
+            ```
+        > 在实际开发中, never 是用来控制 逻辑流程的 <br>
+        > 但是 工作中 不常用 <br>
+        > 大部分 是用来处理异常, 或者处理 Promise 的
 - ## 2-2.TypeScript 中的任意值
     - 任意值 ( Any ) 用来表示允许赋值为任意类型
     - 声明一个变量为任意值后，对它的任何操作，返回的内容的类型都是任意值
