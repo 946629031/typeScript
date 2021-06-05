@@ -427,6 +427,107 @@
                 }
                 ```
     > 总结: TypeScript 的 Enum 枚举类型 非常强大，配合 Switch 语句 非常好用
+- ## 2-6.Any 和 Unknown
+    - ### Any 任意类型
+        ```ts
+        let randomValue : any = 666
+        randomValue = true
+        randomValue = 'alex'
+        randomValue = {}
+        randomValue()               // 函数调用
+        randomValue.toUpperCase()   // 属性调用
+
+        // 因为是 任意类型 所以 上面这些用法 IDE编辑器 都不会报错
+
+        // 但是代码编译后 并执行
+        // randomValue()                // randomValue is not a function
+        // randomValue.toUpperCase()    // randomValue.toUpperCase is not a function
+        ```
+        > &nbsp;<br>
+        > 其实，我们以前使用 JavaScript 的时候，我们使用的变量 都是 Any 任意类型 <br><br>
+        > 有人说 使用了 TypeScript, 就不要用 Any 类型。 不然 就失去了 TypeScript 的 **`强类型定义`** 的作用了 <br><br>
+        > 使用 Any 主要是为了 :
+        >   - 加速我们的开发过程, 提升效率
+        >   - 避免过渡设计<br>
+        > &nbsp;
+
+        <br>
+
+        > &nbsp;<br>
+        > "为什么 JavaScript 可以流行这么多年，且经久不衰 ?"
+        <br><br>
+        > —— 主要还是因为 JavaScript 的灵活性 <br>
+        > - 我喜欢 JavaScript, 正是它 无与伦比 的灵活性
+        > - 我不喜欢 JavaScript, 我痛恨的, 也正是它的灵活性<br>
+        > &nbsp;
+
+        <br>
+
+        > &nbsp;<br>
+        > JavaScript 的这种 野蛮生长, 高灵活性, 在带给我们团队 **`快速开发产品`** 的同时, <br><br>
+        > 也带来了 :
+        > - 不可阅读性、
+        > - 不可维护性、
+        > - 不可拓展性
+        > - ... 
+        > - 等一系列的问题<br><br>
+        > &nbsp;
+        
+        > &nbsp;<br>
+        > 而 TypeScript 正是 因为有了 Any 这个类型, 
+        > - 才使得 TypeScript 在继承了 JavaScript **`高灵活性`** 的同时, 
+        > - 还能带来 **`强类型语言`** 才能形成的 **`高可维护性`** <br>
+        > &nbsp;
+
+        > &nbsp;<br>
+        > 何时使用 Any 类型 ?
+        > - 当我们懒得定义 **`复杂类型结构`** 的时候 <br>
+        > - 就使用 Any 类型 <br>
+        > &nbsp;
+
+    - ### Unknown 未知类型
+        - 当我们把上面的代码 改为 unknown 的时候, IDE 编辑器 就会报错了
+        - ![](./img/2-6.jpg)
+        > &nbsp;<br>
+        > Unknown **`不保证类型`**, 但是 **`保证类型安全`** <br>
+        > &nbsp;
+
+        > &nbsp;<br>
+        > 在我们使用  Unknown变量 的时候
+        > - 需要做 一定的判断 和 类型转换 <br>
+        > - 当确定了 **`变量类型`** 之后, 才正常使用 <br>
+        > &nbsp;
+
+        ```ts
+        let randomValue : unknown = 666
+        randomValue = true
+        randomValue = 'alex'
+        randomValue = {}
+
+        if (typeof randomValue === 'function') {
+            randomValue()
+        }
+
+        if (typeof randomValue === 'string') {
+            randomValue.toUpperCase()
+        }
+
+        // 确定 变量类型 后, 这样的代码 IDE 编辑器, 就不会报错了
+        // 保证了 类型的绝对安全
+        ```
+    - 总结
+
+        > &nbsp;<br>
+        > Any
+        > - 优点: 适用于 代码的 **`快速成型, 快速上线`** <br>
+        > - 缺点: 会遗留 一些比较明显的 **`安全隐患`** <br>
+        > &nbsp;
+
+        > &nbsp;<br>
+        > Unknown
+        > - Unknown 比 Any 更保险一点, 可以 **`保证类型安全`**
+        > - 也能拥有 Any 的 **`灵活性`** <br>
+        > &nbsp;
 - ## 2-2.TypeScript 中的任意值
     - 任意值 ( Any ) 用来表示允许赋值为任意类型
     - 声明一个变量为任意值后，对它的任何操作，返回的内容的类型都是任意值

@@ -27,13 +27,20 @@
 // union = true
 // let union3 : 0 | 1 | 2   // 确定值的联合，一旦 指定之后, 该变量 就只能取 这3个值 中的一个
 // union3 = 4  // 不能将类型“4”分配给类型 “0 | 2 | 1”
-// 枚举类型
-var Color;
-(function (Color) {
-    Color[Color["red"] = 0] = "red";
-    Color[Color["green"] = 1] = "green";
-    Color[Color["blue"] = 2] = "blue";
-})(Color || (Color = {}));
-// 使用该 枚举类型
+// // 枚举类型
+// enum Color {
+//     red = 5,
+//     green,
+//     blue
+// }
+// // 使用该 枚举类型
 // let color = Color.blue
-console.log(Color.red, Color.green);
+// console.log(color)
+// // console.log(Color.red, Color.green)
+// Any 任意类型
+// var randomValue = 666;
+// randomValue = true;
+// randomValue = 'alex';
+// randomValue = {};
+// // randomValue()
+// randomValue.toUpperCase();

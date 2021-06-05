@@ -49,14 +49,28 @@
 
 
 
-// 枚举类型
-enum Color {
-    red = 5,
-    green,
-    blue
-}
+// // 枚举类型
+// enum Color {
+//     red = 5,
+//     green,
+//     blue
+// }
 
-// 使用该 枚举类型
-let color = Color.blue
-console.log(color)
-// console.log(Color.red, Color.green)
+// // 使用该 枚举类型
+// let color = Color.blue
+// console.log(color)
+// // console.log(Color.red, Color.green)
+
+
+
+
+
+
+// Any 任意类型
+// let randomValue : any = 666
+let randomValue : unknown = 666
+randomValue = true
+randomValue = 'alex'
+randomValue = {}
+randomValue()
+randomValue.toUpperCase()
