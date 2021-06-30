@@ -28,14 +28,14 @@
         - [1-3 安装使用 TypeScript](#1-3-安装使用-TypeScript)
     - [第2章 TS数据类型](#第2章-TS数据类型)
         - `string  nummber  boolean  null  undefined  enum  symbol  any`
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
-        - []()
+        - [2-1.TypeScript 数据类型分类](#2-1TypeScript-数据类型分类)
+        - [2-2.Number, Boolean, String](#2-2Number-Boolean-String)
+        - [2-3.Array数组 和 Tuple元组](#2-3Array数组-和-Tuple元组)
+        - [2-4.Union联合 和 Literal类型](#2-4Union联合-和-Literal类型)
+        - [2-5.Enum枚举](#2-5Enum枚举)
+        - [2-6.Any 和 Unknown](#2-6Any-和-Unknown)
+        - [2-7 Void Undefined Never](#2-7-Void-Undefined-Never)
+        - [2-8 类型适配 (类型断言) Type Assertions](#2-8-类型适配-类型断言-Type-Assertions)
         - []()
     - [第3章 联合类型](#第3章-联合类型)
         - [3-2 接口 Interface](#3-2-接口-Interface) - `可选属性、只读属性、任意属性`
@@ -202,11 +202,11 @@
     - 空值一般采用 `void` 来表示，void可以表示变量，也可以表示函数返回值
     - 举例
     ```ts
-    var str:string = 'hello'
-    var num:number = 1
-    var flag:boolean = true
-    var un:undefined = undefined
-    var nul:null = null
+    var str : string = 'hello'
+    var num : number = 1
+    var flag : boolean = true
+    var un : undefined = undefined
+    var nul : null = null
 
     str = 1             // 这会报错
     str = null          // 不会报错
@@ -624,6 +624,86 @@
         > 在实际开发中, never 是用来控制 逻辑流程的 <br>
         > 但是 工作中 不常用 <br>
         > 大部分 是用来处理异常, 或者处理 Promise 的
+- ## 2-8 类型适配 (类型断言) Type Assertions
+    > **注意⚠️**: 在使用 Type Assertions 类型适配 的时候, 你一定要 **`非常了解当前 变量的类型,`** 而且要对自己的 代码有 100% 的信心, **`否则 可能引发严重的错误！！！`**
+    - 什么是 类型适配 ?
+        举个例子
+        ```ts
+        let message : any
+        message = 'abc'   // 这时候 message 的变量类型, 应该自动变成 string 类型 才对
+        // 但是, 当我们把 鼠标 hover 在 message 变量上的时候发现, 它仍然是 any 类型
+
+        // 这时, 当我们使用 原生 JavaScript 内建函数的时候, 如
+        message.endWith('c')
+        // 在输入 .endWith() 的过程中, 我们发现 编辑器 没有打开 自动联想功能
+        ```
+    - 为什么会这样呢？
+        - 声明变量时，变量为 `any` 类型, 即使后面赋值了 字符串, 也不会改变 该变量的变量类型
+        - 所以，因为 `message` 是 `any` 类型, 所以不会自动打开 编辑器的 `自动联想功能`
+        - 那么，出现这种情况 我们该如何处理呢？
+    - ### Type Assertions 类型适配 (类型断言)
+        - 什么是 Type Assertions 类型适配 (类型断言) ？
+            - 在某个时刻，我们需要明确的把 某个变量的类型 告诉 `TypeScript 编译器`
+            - 而这个 通知 `TypeScript` 进行类型适配 的过程, 就叫做 **`Type Assertions 类型适配 (类型断言)`**
+        - 如何使用 ?
+            ```ts
+            // Type Asserttions / 类型适配 / 类型断言
+            let message : any
+            message = 'abc'
+            message.endWith('c')
+
+            let ddd = <string>message     // 方法一, <> 尖括号
+            ddd.endsWith('c')
+
+            let ddd2 = message as string  // 方法二, as 关键字
+            ddd2.endsWith('c')
+            ```
+        - ![](./img/2-8-1.TypeAssertions.jpg)
+
+- ## 2-9 函数类型
+    - TypeScript 与 JS ES6 中, 函数里的 最大区别是, `可以给 入参 指定类型`
+    - 入参类型
+        ```ts
+        // 函数类型
+        let log = function (message) { // 传统函数定义
+            console.log(message);
+        }
+
+        let log2 = (message: string) => console.log(message) // ES6 箭头函数 定义
+        // TypeScript 可以给 函数入参 指定类型
+        log2('hello')
+        log2(2)    // 传入 非指定 入参类型 会报错 // 类型“number”的参数不能赋给类型“string”的参数
+        log2(true) // 传入 非指定 入参类型 会报错 // 类型“boolean”的参数不能赋给类型“string”的参数
+        ```
+    - 入参个数
+        ```ts
+        // 如果 TypeScript 定义了 2个 参数, 在调用函数的时候 必须填写 所有参数, 否则会报错
+        let log3 = (message: string, code: number) => {
+            console.log(message, code);
+        }
+        log3('hello') // 报错: 入参不够 // 应有 2 个参数，但获得 1 个
+        ```
+    - 可选参数
+        - '?' 问号表示 可选参数
+        - 如果我们希望 函数 能像 JavaScript 一样, 有的参数是 可填可不填的
+            ```ts
+            let log4 = (message: string, code?: number) => { // '?' 问号表示 可选参数
+                console.log(message, code);
+            }
+            log4('hello')
+            ```
+    - 默认参数
+        - 当使用了 可选参数, 剩下的参数没有传时, 默认为 undefined
+        - 如果 不希望 其他参数 默认为 undefined, 可以使用 ES6 的 默认参数
+            ```ts
+            let log5 = (message: string, code: number = 0) => { // '?' 问号表示 可选参数
+                console.log(message, code);
+            }
+            log5('hello')
+            ```
+    > 1.在 TypeScript 中, 可选参数 和 默认参数, 都可以实现 在调用函数时 不用输入全部参数 的功能 <br>
+    > 2.不管 可选参数, 还是 默认参数, 都是要 从后往前写。 否则如果是 从左往右写 就会报错
+
 - ## 2-2.TypeScript 中的任意值
     - 任意值 ( Any ) 用来表示允许赋值为任意类型
     - 声明一个变量为任意值后，对它的任何操作，返回的内容的类型都是任意值
@@ -1024,22 +1104,46 @@ static
 - `public` 修饰的 `属性` 或 `方法` 是共有的，可以做任何地方被访问到，默认所有 `属性` 或 `方法` 都是public
 - `private` 修饰的 `属性` 或 `方法` 是私有的，不能在声明它的类外面访问
 - `protected` 修饰的 `属性` 或 `方法` 是受保护的，它和 `private` 类似
-```ts
-// 创建 Person类
-class Person {
-    name = 'nick'
-    age = 18
-    say () {
-        console.log('my name is ' + this.name + ', my age is ' + this.age)
-    }
-}
+- `static` 在开发 `不依赖于内部状态` 的类函数时，最好将它们转换为静态方法
 
-// 创建 person 实例
-var p = new Person()
-p.say()
-console.log(p.name) // 当一个类成员变量没有被修饰的时候，外界是可以进行访问的，默认就是public进行修饰
-```
-- 但是如果加了 private
+- ## public
+    - 在类的 内部和外部, 可以自由的访问类里定义的成员
+    > 在TypeScript里，成员都默认为 public
+    ```ts
+    class Animal {
+        public name: string;
+        public constructor(theName: string) { this.name = theName; }
+        public move(distanceInMeters: number) {
+            console.log(`${this.name} moved ${distanceInMeters}m.`);
+        }
+    }
+    ```
+    ```ts
+    // 创建 Person类
+    class Person {
+        name = 'nick'
+        age = 18
+        say () {
+            console.log('my name is ' + this.name + ', my age is ' + this.age)
+        }
+    }
+
+    // 创建 person 实例
+    var p = new Person()
+    p.say()
+    console.log(p.name) // 当一个类成员变量没有被修饰的时候，外界是可以进行访问的，默认就是public进行修饰
+    ```
+- ## private
+    - 但是如果加了 private
+    > 被标记成 private时，它就不能在声明它的类的外部访问
+    ```ts
+    class Animal {
+        private name: string;
+        constructor(theName: string) { this.name = theName; }
+    }
+
+    new Animal("Cat").name; // 错误: 'name' 是私有的.
+    ```
     ```ts
     // 创建 Person类
     class Person {
@@ -1052,10 +1156,64 @@ console.log(p.name) // 当一个类成员变量没有被修饰的时候，外界
 
     // 创建 person 实例
     var p = new Person()
-    p.say()
+    p.say()    // my name is nick, my age is 18 // 在类中, 可以正常访问 private 属性 
     console.log(p.name) // 报错: 属性“name”为私有属性，只能在类“Person”中访问
     ```
-- protected
+- ## protected
+    - `protected` 修饰符与 `private` 修饰符的行为很相似，但有一点不同， protected成员在派生类中仍然可以访问。
+    - 当为 `private` 时, `private` 类成员不可被继承
+        ```ts
+        class Person {
+            private name : string
+            // protected name : string
+
+            constructor (name) {
+                this.name = name
+            }
+        }
+
+        class Student extends Person {
+            constructor (name) {
+                super(name)
+            }
+
+            public learn () {
+                console.log(`${this.name} is learning`) // 属性“name”为私有属性，只能在类“Person”中访问。
+            }
+        }
+
+        let aleax = new Student('Aleax')
+        console.log(aleax.learn());
+        ```
+    - 当为 `protected` 时, `protected` 类成员可被继承
+        ```ts
+        class Person {
+            // private name : string
+            protected name : string
+
+            constructor (name) {
+                this.name = name
+            }
+        }
+
+        class Student extends Person {
+            constructor (name) {
+                super(name)
+            }
+
+            public learn () {
+                console.log(`${this.name} is learning`)  // Aleax is learning.  this.name 可以被正常访问
+            }
+        }
+
+        let aleax = new Student('Aleax')
+        console.log(aleax.learn());
+        ```
+    - 当成员被标记成 `protected` 时，它就不能在声明它的类的外部访问
+        ```ts
+        let aleax = new Student('Aleax')
+        console.log(aleax.name);  // 'name' 是私有的. 属性“name”受保护，只能在类“Person”及其子类中访问。
+        ```
     ```ts
     // 创建 Person类
     class Person {
@@ -1087,7 +1245,35 @@ console.log(p.name) // 当一个类成员变量没有被修饰的时候，外界
     console.log(c.sex)  // 报错: 属性“sex”受保护，只能在类“Person”及其子类中访问
     c.callParent()      // 无报错
     ```
-- static
+- ## static
+    - [何时在 TypeScript 中使用静态方法？](https://typescript.tv/best-practices/when-to-use-static-methods-in-typescript/)
+        - 在开发 `不依赖于内部状态的` 类函数时，最好将它们转换为静态方法。这可以通过将关键字添加 `static` 到函数声明中轻松完成。
+        - **识别静态方法**
+            - 在检查函数的实现时，您可以轻松识别是否应将函数转换为静态方法。
+            - 如果您的函数不使用 `this` 关键字或 `任何其他类成员`，则可以轻松将其转换为静态函数。
+            - 要创建静态函数，只需添加 `static` 关键字并直接从类中调用它，`而不是从类的实例中调用它`。
+        - **代码示例**
+            - 实例方法
+                ```ts
+                export class MyClass {
+                    myFunction(text: string) {
+                        return text;
+                    }
+                }
+
+                const instance = new MyClass();
+                instance.myFunction('My Text'); // 实例化后 才能使用
+                ```
+            - 静态方法
+                ```ts
+                export class MyClass {
+                    static myFunction(text: string) {
+                        return text;
+                    }
+                }
+
+                MyClass.myFunction('My Text'); // 不需要实例化 就能使用
+                ```
     ```ts
     // 创建 Person类
     class Person {

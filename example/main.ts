@@ -66,44 +66,173 @@
 
 
 
-// Any 任意类型
-// let randomValue : any = 666
-let randomValue : unknown = 666
-randomValue = true
-randomValue = 'alex'
-randomValue = {}
-randomValue()
-randomValue.toUpperCase()
+// // Any 任意类型
+// // let randomValue : any = 666
+// let randomValue : unknown = 666
+// randomValue = true
+// randomValue = 'alex'
+// randomValue = {}
+// randomValue()
+// randomValue.toUpperCase()
 
 
 
 
 
 
-// Void
-function printResult () : void {
-    console.log('lalala')
-}
+// // Void
+// function printResult () : void {
+//     console.log('lalala')
+// }
 
 
-// Void
-function printResult2 () : undefined {
-    console.log('lalala')
-}
+// // Void
+// function printResult2 () : undefined {
+//     console.log('lalala')
+// }
 
 
-// never
-function throwError (message: string, errorCode: number) {
-    throw {
-        message,
-        errorCode
+// // never
+// function throwError (message: string, errorCode: number) {
+//     throw {
+//         message,
+//         errorCode
+//     }
+// }
+// throwError('not found', 404)
+
+
+// function whileLoop () : never {
+//     while (true) {
+//         console.log('haha')
+//     }
+// }
+
+
+
+
+
+
+
+
+
+
+
+// class Animal {
+//     private name: string;
+//     constructor(theName: string) { this.name = theName; }
+// }
+
+// class Rhino extends Animal {
+//     constructor() { super("Rhino"); }
+// }
+
+// class Employee {
+//     private name: string;
+//     age = 1
+//     constructor(theName: string) { this.name = theName; }
+// }
+
+// let animal = new Animal("Goat");
+// let rhino = new Rhino();
+// let employee = new Employee("Bob");
+
+// // animal = rhino;
+// animal = employee;
+// console.log(animal);
+
+
+
+
+
+
+
+
+// 创建 Person类
+class Person {
+    // private name : string
+    protected name : string
+
+    constructor (name) {
+        this.name = name
     }
 }
-throwError('not found', 404)
 
+class Student extends Person {
+    constructor (name) {
+        super(name)
+    }
 
-function whileLoop () : never {
-    while (true) {
-        console.log('haha')
+    public learn () {
+        console.log(`${this.name} is learning`)
     }
 }
+
+let aleax = new Student('Aleax')
+// console.log(aleax.learn());
+console.log(aleax.name);
+
+
+
+
+
+
+
+
+
+
+
+
+// Type Asserttions / 类型适配 / 类型断言
+let message : any
+message = 'abc'
+message.endWith('c')
+
+let ddd = <string>message // 方法一, <> 尖括号
+ddd.endsWith('c')
+
+let ddd2 = message as string  // 方法二, as 关键字
+ddd2.endsWith('c')
+
+
+
+
+
+
+
+// 函数类型
+let log = function (message) { // 传统函数定义
+    console.log(message);
+}
+
+let log2 = (message: string) => console.log(message) // ES6 箭头函数 定义
+// TypeScript 可以给 函数入参 指定类型
+log2('hello')
+log2(2)    // 传入 非指定 入参类型 会报错 // 类型“number”的参数不能赋给类型“string”的参数
+log2(true) // 传入 非指定 入参类型 会报错 // 类型“boolean”的参数不能赋给类型“string”的参数
+
+
+// 如果 TypeScript 定义了 2个 参数, 在调用函数的时候 必须填写 所有参数, 否则会报错
+let log3 = (message: string, code: number) => {
+    console.log(message, code);
+}
+log3('hello') // 报错: 入参不够 // 应有 2 个参数，但获得 1 个
+
+
+// '?' 问号表示 可选参数
+// 如果我们希望 函数 能像 JavaScript 一样, 有的参数是 可填可不填的
+let log4 = (message: string, code?: number) => { // '?' 问号表示 可选参数
+    console.log(message, code);
+}
+log4('hello')
+
+
+// 当使用了 可选参数, 剩下的参数没有传时, 默认为 undefined
+// 如果 不希望 其他参数 默认为 undefined, 可以使用 ES6 参数的默认值
+let log5 = (message: string, code: number = 0) => { // '?' 问号表示 可选参数
+    console.log(message, code);
+}
+log5('hello')
+
+// 1.在 TypeScript 中, 可选参数 和 默认参数, 都可以实现 在调用函数时 不用输入全部参数 的功能
+// 2.不管 可选参数, 还是 默认参数, 都是要 从后往前写。 否则如果是 从左往右写 就会报错
