@@ -47,6 +47,12 @@
 
 
 
+let aaa : number | string
+aaa = 123
+
+
+
+
 
 
 // // 枚举类型
@@ -236,3 +242,51 @@ log5('hello')
 
 // 1.在 TypeScript 中, 可选参数 和 默认参数, 都可以实现 在调用函数时 不用输入全部参数 的功能
 // 2.不管 可选参数, 还是 默认参数, 都是要 从后往前写。 否则如果是 从左往右写 就会报错
+
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * 面向对象
+ */
+
+// 3-1 object 对象
+
+const person : any = {
+    firstName: 'Alex',
+    lastName: 'Liu',
+    age: 18
+}
+
+console.log(person)             // 正常执行
+console.log(person.age)         // 正常执行
+console.log(person.nickName)    // 调用不存在的属性, 也能正常执行
+
+
+
+
+
+
+
+// 3-2 Interface 接口
+interface Point {
+    x: number,
+    y: number
+}
+
+let drawPoint = (point : Point) => {
+    console.log({ x: point.x, y: point.y })
+}
+
+drawPoint({ x: 105, y: 23 })
+drawPoint({ x: 'Alex', y: '刘老师' })
+drawPoint({ wether: 'dry', temperature: '50C' })
+

@@ -1,12 +1,12 @@
 # TypeScript
 - TypeScript 入门, 基础语法
-- [TypeScript 官网 typescriptlang.org](https : //www.typescriptlang.org/)
+- [TypeScript 官网 typescriptlang.org](https://www.typescriptlang.org/)
 - 视频教程
-    - [【慕课】2小时极速入门 TypeScript](https : //www.imooc.com/learn/1306)
-    - [基于TypeScript从零重构axios](https : //www.bilibili.com/video/BV13T4y1J74J)
-    - [2020千锋TypeScript全套视频（程序员必备）](https : //www.bilibili.com/video/BV1jJ411X7bi?p=1)
+    - [【慕课】2小时极速入门 TypeScript](https://www.imooc.com/learn/1306)
+    - [基于TypeScript从零重构axios](https://www.bilibili.com/video/BV13T4y1J74J)
+    - [2020千锋TypeScript全套视频（程序员必备）](https://www.bilibili.com/video/BV1jJ411X7bi?p=1)
 - 小技巧
-    - [ts和vscode设置中文错误提示](https : //blog.csdn.net/promiseCao/article/details/109578886)
+    - [ts和vscode设置中文错误提示](https://blog.csdn.net/promiseCao/article/details/109578886)
         - vscode设置中文错误提示需要打开设置页面，搜索“typescript local”，然后设置中文就行了
 ----
 - 提示
@@ -40,7 +40,9 @@
             - 参数约束，返回值约束
         - []()
     - [第3章 TypeScript 面向对象](#第3章-TypeScript-面向对象)
-        - [3-2 接口 Interface](#3-2-接口-Interface) - `可选属性、只读属性、任意属性`
+        - [3-2 接口 Interface](#3-2-接口-Interface)
+            - [高内聚, 低耦合](#高内聚-低耦合)
+            - `可选属性、只读属性、任意属性`
         - [3-3 Class 类](#3-3-Class-类)
             - [class 类的修饰符 `public, private, protected, static`](#class-类的修饰符)
         - [3-6 Generics 泛型](#3-6-Generics-泛型)
@@ -84,14 +86,27 @@
         - 增强了 编辑器 和 IDE 的功能
         > 在编译期 就暴露问题 <br>
         > 让问题尽早暴露，而不是等到 上线之后才 暴露问题. ( **`减小 问题的影响范围`** )
+    - ### JavaScript 命名梳理
+        - JavaScript 是 1994年诞生的，作者命名时 借用了 但是比较火的 Java语言 的名字, 但是 JavaScript 和 Java 没有一毛钱关系
+        - JavaScript 是由 `ECMA International` (爱玛国际) 负责维护版本
+            - 所以 JavaScript 也被称为 `ECMAScript`, 简称 `ES`
+            - 所以 `ES` 指的是 JavaScript 的 `标准/版本`
+                - 例如, `ES3、 ES5`, 支持目前所有主流浏览器
+                    - > 说句题外话, ES4 这个版本 从来就没推出过, 这个版本失败了, 所以 ECMAScript 就放弃这个版本了
+                - `ES6 = ES2015`, 目前浏览器不支持, 但未来一定会支持
+                    - ES6 是一个颠覆性的版本, 从这个版本开始 从语言底层开始 支持 let、const, 面向对象, 模块... 等特性
+                    - ECMAScript 也从 ES6 开始决定 以后的版本命名 使用年份来命名, 如 `ES2015`
+                - ES2016 (ES7)
+                - ES2017 (ES8)
 
 - ## 1-2 TypeScript 的优点和缺点
     - ### TypeScript 的优点 - `Typing 强类型`
+        - 0.**`类型推演 与 类型匹配`**
         - 1 规范我们的代码。TypeScript 增加了代码的`可读性`和`可维护性`
             - TypeScript 主要增加了 `类型系统`
                 - 它就是最好的文档，大部分函数 我们只要看一下 类型的定义，就知道 应该如何去调用它
             - 能像Java一样 对变量类型做约束，使得代码更严谨
-        - 2 在编译阶段就可以发现大部分错误
+        - 2 在 `编译阶段` 就可以发现大部分错误
             - 这可以帮助我们 减少很多的BUG
         - 3 TypeScript 非常包容
             - 举个例子
@@ -129,11 +144,13 @@
                     }
                     ```
                 - 这就导致了 额外的工作量，和 低水平的重复 
+                    - 如果没有 TS 我们使用 JS 时，每天都需要 不断的做 类型检查，这也导致了 `大量的 低水平的重复工作`
             - TypeScript 带来的好处
                 - 自动进行 `类型检查`
                 - 避免低级错误
                 - 解放劳动力
         - 6 TeypScript 提示健全
+            > **`类型推演 与 类型匹配`**
             - 当鼠标放在 `.js` 文件的 函数形参 上时
                 - ![](./img/1-1-6.jpg)
             - 当鼠标放在 `.ts` 文件的 函数形参 上时
@@ -227,7 +244,7 @@
 - ## 2-2.Number, Boolean, String
     - Number 数字类型
         - TypeScript 对数字的定义 只有一个很笼统的 number 来表示 (基于JS的灵活性 继承过来的)
-        - 既能表示整数、也能表示浮点数，甚至也可以表示正负数
+        - 既能表示 `整数`、也能表示 `浮点数`，甚至也可以表示 `正负数`
         - 例如：`1, 5.3, -10`
         - 举例
             ```ts
@@ -254,7 +271,7 @@
 - ## 2-3.Array数组 和 Tuple元组
     - Array 数组类型
         - `[]`
-        - 数组中 可以存放任意类型的数据
+        - 数组中 可以存放 `任意类型的数据`
         - JS中数组的宽容度非常大，而TS也 很好的继承了这一点
         - 举例
             ```ts
@@ -275,7 +292,10 @@
         - 举例
             ```ts
             // 元组 tuple
-            let person: [number, string] = [1, 'alex']          // 鼠标 hover 上去，显示 let person: [number, string]
+            let person: [number, string] = [1, 'alex']
+            
+            // 鼠标 hover 上去，显示 let person: [number, string]
+
             person[0] = 'ddd'  // 不能将类型“string”分配给类型“number”
             person[1] = 1      // 不能将类型“number”分配给类型“string”
             person[2] = 111    // 不能将类型“111”分配给类型“undefined”
@@ -289,7 +309,9 @@
         - 注意: tuple 现在还存在 **`BUG`**
             ```ts
             person[2] = 3   // 取下标为2的值, 这样 会报错
+
             person.push(3)  // 这样不会报错, IDE 和 编译 都可以通过
+
             // 这里是 有问题的，因为 person 已经固定 长度了，是2个长度，但是现在又可以 放3个元素 在里面
             ```
         - 声明元组时，一定要指明数据类型
@@ -338,7 +360,7 @@
 
                 let mergeNumber = merge(2, 5)
                 ```
-            - 如果我们希望拓展一下这个函数，希望它 既可以 做加法，也可以做 字符串合并。 改如何做呢？
+            - 如果我们希望拓展一下这个函数，希望它 既可以 `做加法`，也可以做 `字符串合并`。 改如何做呢？
                 ```ts
                 function merge (n1: number | string, n2: number | string) {
                     if (typeof n1 === 'string' || typeof n2 === 'string')
@@ -353,6 +375,7 @@
         - **`确定值的 联合 Union`**
             ```ts
             let union : 0 | 1 | 2   // 确定值的联合，一旦 指定之后, 该变量 就只能取 这3个值 中的一个
+
             union3 = 4  // 不能将类型“4”分配给类型 “0 | 2 | 1”
 
             // 那么 像这种 明确取值的类型 就是 字面量类型 Literal
@@ -360,10 +383,12 @@
     - ### Literal 字面量类型
         ```ts
         let number3 = 4
+
         let union : 0 | 1 | 2
+        
         let literal : 1 | '2' | true | [1,2,3,4]
         ```
-        > 当我们把 字面量类型 和 联合类型 结合起来使用的时候，就能够产生 非常强大的 代码逻辑
+        > 当我们把 字面量类型 和 联合类型 结合起来使用的时候，就能够产生 **`非常强大的 代码逻辑`**
         ```ts
         // 我们再来改造一下 上面的 加法函数
         function merge (
@@ -418,7 +443,7 @@
             - 当然，除了默认情况下，我们还可以 指定数据，如
                 ```ts
                 enum Color {
-                    red = 5,    // 5
+                    red = 5,    // 5    // 手动指定 从5开始 计算, 而不是默认的 0 开始计算
                     green,      // 6
                     blue        // 7
                 }
@@ -916,78 +941,242 @@
             ```
 
 # 第3章 TypeScript 面向对象
-- ## 3-2 接口 Interface
-    - 1.可描述类的一部分抽象行为，也可描述对象的结构形状
-    - 2.接口一般手写字母大写，有的编程语言上面建议接口名称加上 "I" 前缀
-    - 3.赋值的时候，变量的形状必须要跟接口的形状保持一致
-    - 4.接口中可定义 `可选属性、只读属性、任意属性`
-    - 举例子
-        - ### 3-2-1 定义接口  强约束规范
-            ```ts
-            // 定义接口
-            interface Istate {
-                name : string
+- ## 3-0 面向对象 概念
+    - ### 为什么会出现面向对象, 这个概念?
+        - [面向对象编程思想（OOP）的由来与本质](https://www.youtube.com/watch?v=3yNVmdkLpVQ)
+        - [C的面向过程和C++的面向对象有什么区别，大象装冰箱一个例子搞懂](https://www.youtube.com/watch?v=jPctIi4CHNk)
+    - 面向对象 和 面向过程 的优缺点
+        - 面向过程
+            - 优点
+                - 性能比面向对象好, 因为类的调用 需要实例化。 `开销大、消耗资源多`
+            - 缺点
+                - `不易维护、不易复用、不易拓展`
+        - 面向对象
+            - 优点
+                - `易维护、易复用、易拓展`
+                - 由于 面向对象 有 `封装、继承、多态` 的特性, 可以设计出 `低耦合` 的系统
+            - 缺点
+                - 性能 比 面向过程 差
+- ## 3-1 object 对象类型
+    - ### 在 JavaScript 中的 object 对象
+        - 是下面这样子的
+        - `Key-Value` 键值对
+            ```js
+            const ojbect = {
+                hello: 'world'
+            }
+            ```
+        - JavaScript 中的 object对象 跟 JSON数据 的形式是很像的，并且 JavaScript 是原生支持 JSON 的
+        - 使用 `{}` 花括号, 并且是 `键值对` 形式的, 基本上都是 Object 对象类型
+            ```js
+            const person = {
+                firstName: 'Alex',
+                lastName: 'Liu',
+                age: 18
             }
 
-            var obj : Istate
-            obj = 1    // 报错: 不能将类型“1”分配给类型“Istate”
-            obj = {}   // 报错: Property 'name' is missing in type '{}' but required in type 'Istate'
-                    //       属性“name”在类型“{}”中缺失，但在类型“Istate”中是必需的。
-            obj = {name: 'nick'}    // 无报错
+            console.log(person)             // 可以 调用该对象
+            console.log(person.age)         // 可以 调用 对象内的属性
+            console.log(person.nickName)    // 甚至可以调用 对象内不存在 的属性 (TypeScript 中会报错, JS 中不会)
             ```
-        - ### 3-2-2 可选属性
+    - ### TypeScript 中的 object 对象
+        - object 在 JavaScript 与 TypeScript 中的不同之处 在于
+            > &nbsp;<br>
+            > - JavaScript 是 `Key-Value`
+            > - TypeScript 是 `Key-Type`<br>
+            > &nbsp;
+        ```ts
+        const person = {
+            firstName: 'Alex',
+            lastName: 'Liu',
+            age: 18
+        }
+
+        console.log(person)             // 可以 调用该对象
+        console.log(person.age)         // 可以 调用 对象内的属性
+        console.log(person.nickName) 
+        ```
+        - TypeScript 中, 初始化时 属性的类型 就已经被定义了
+            - ![](./img/3-1-2.jpg)
+        - 如果调用了 不存在的属性
+            - ![](./img/3-1-1.jpg)
+        - 另外, 如果把 变量类型 定义为 `any`, 就不会在报错了
+            - ![](./img/3-1-4.jpg)
+    - ### 显示手动 定义对象类型
+        ```ts
+        const person : {
+            firstName: string,
+            lastName: string,
+            age: number
+        } = {
+            firstName: 'Alex',
+            lastName: 'Liu',
+            age: 18
+        }
+        ```
+        - **`注意⚠️`**: 定义为空对象
+            - 此外，我们还可以 笼统的定义一下 变量类型, 也是可以的
+            - 但是 这种 笼统的定义方式 不会对我们的代码 有任何的帮助
+                ```ts
+                const persion : object = {  // 将 person 变量 定义为 object类型
+                    firstName: 'Alex',
+                    lastName: 'Liu',
+                    age: 18
+                }
+
+                console.log(person)             // 正常执行
+                console.log(person.age)         // 类型“object”上不存在属性“age“
+                console.log(person.nickName)    // 类型“object”上不存在属性“nickName“
+                ```
+            ![](./img/3-1-3.jpg)
+            - 而且, 上面这种定义方法, 跟直接 定义为 `{}` 效果是完全一样的
+                ```ts
+                const persion : {} = {  // 将 person 变量 定义为 object类型
+                    firstName: 'Alex',
+                    lastName: 'Liu',
+                    age: 18
+                }
+
+                console.log(person)             // 正常执行
+                console.log(person.age)         // 类型“{}”上不存在属性“age“
+                console.log(person.nickName)    // 类型“{}”上不存在属性“nickName“
+                ```
+            > 当我们使用 object 来定义 对象结构的时候 `const persion : object` <br>
+            > TypeScript 是不知道 对象内部结构的, 类似于 `const person : {}` 定义一个变量的类型为 `空对象` <br>
+            > <br>
+            > 所以 上面这两种方法, 将变量 定义为 `空对象` 是非常没有必要的, 倒不如 不定义变量类型, 让 TypeScript 自动推断出 变量的 `类型定义`, 如下图一样
+            - ![](./img/3-1-2.jpg)
+
+
+- ## 3-2 接口 Interface
+    - 1.为什么需要 InterFace 接口 ?
+        - 1.先来看个问题
+            - 要求: 写一个方法，用来画出 坐标点
             ```ts
-            // 可选属性
-            interface Istate2 {
-                name : string,
-                age? : number     // '?' 问号表示 存疑，可有可无：可选属性
+            let drawPoint (x, y) => {
+                console.log({x, y})
             }
-            var obj2 : Istate2
-            obj2 = {name: 'no', age: 20}    // 无报错
-            obj2 = {name: 'no'}             // 无报错
             ```
-        - ### 3-2-3 动态属性
-            - 属性个数不确定的时候，可随时添加属性
+            - 思考:
+                - 上面这种方式，是可以的，没问题的
+                - 但是，我们想一下，一个坐标点 最好应该是 以 `整体` 的形式 来传入函数中的，而不是 分别拆开，然后再传入
+                - 这里就 涉及到了 **`用 面向对象 的思想 来解决问题`** 了
+            - 用 **`面向对象`** 的思想 来改造这个 解法
+                - 传入的 参数, 应该是一个 包含 `x, y` 参数的 **`对象`**
+                ```ts
+                let drawPoint = (point) => {
+                    console.log({ x: point.x, y: point.y })
+                }
+
+                drawPoint({ x: 105, y: 24 })
+                ```
+                - 思考:
+                    - 上面这种解法，虽然 也可以解决问题
+                    - 但是存在一定的 安全隐患, 如下
+                ```ts
+                drawPoint({ x: 'Alex', y: '刘老师' })  // 入参的时候, 传入了 字符串
+                drawPoint({ wether: '干燥', temperature: '50C' }) // 入参的时候 根本没有 x y 参数 
+                ```
+                - 这个时候, 不管是代码逻辑, 还是业务逻辑 都 彻底的错了
+        - 2.解决问题
+            - 不过幸好 我们还有 TypeScript
+            - 我们可以使用 Interface 面向对象 接口, 来 **`给 参数对象 point 加以限制`**
             ```ts
-            // 动态属性
-            interface Istate3 {
-                name : string,
-                age? : number,
-                [propName : string] : any   // 必须是any类型, propName 变量名可以随意取
+            interface Point {
+                x: number,
+                y: number
             }
-            var obj3 : Istate3 = {name: 'nick', age: 12, sex: 'male', isMarry: true} // 可随时添加属性
+
+            let drawPoint = (point : Point) => {
+                console.log({ x: point.x, y: point.y })
+            }
+
+            drawPoint({ x: 105, y: 23 })
+            drawPoint({ x: 'Alex', y: '刘老师' })
+            drawPoint({ wether: 'dry', temperature: '50C' })
             ```
-            - 问题：为什么 ` [propName : string] : any`  必须是any类型 ?
+            > 定义好 接口之后, 那些 不符合要求的 入参就都报错了
+            - ![](./img/3-2-1.jpg)
+    - ### **`高内聚, 低耦合`**
+        > <br>
+        > 高内聚: 功能相关的事物, 应该放在同一个集合中, 形成一个模块 <br><br>
+        > 低耦合: 而这些模块 又应该是 相互独立的, 不同模块之间 应该保持 低耦合的状态 <br>
+        > <br>
+
+    - ### Interface
+        - 1.可描述类的一部分抽象行为，也可描述对象的结构形状
+        - 2.接口一般手写字母大写，有的编程语言上面建议接口名称加上 "I" 前缀
+        - 3.赋值的时候，变量的形状必须要跟接口的形状保持一致
+        - 4.接口中可定义 `可选属性、只读属性、任意属性`
+        - 举例子
+            - ### 3-2-1 定义接口  强约束规范
+                ```ts
+                // 定义接口
+                interface Istate {
+                    name : string
+                }
+
+                var obj : Istate
+                obj = 1    // 报错: 不能将类型“1”分配给类型“Istate”
+                obj = {}   // 报错: Property 'name' is missing in type '{}' but required in type 'Istate'
+                        //       属性“name”在类型“{}”中缺失，但在类型“Istate”中是必需的。
+                obj = {name: 'nick'}    // 无报错
+                ```
+            - ### 3-2-2 可选属性
+                ```ts
+                // 可选属性
+                interface Istate2 {
+                    name : string,
+                    age? : number     // '?' 问号表示 存疑，可有可无：可选属性
+                }
+                var obj2 : Istate2
+                obj2 = {name: 'no', age: 20}    // 无报错
+                obj2 = {name: 'no'}             // 无报错
+                ```
+            - ### 3-2-3 动态属性
+                - 属性个数不确定的时候，可随时添加属性
                 ```ts
                 // 动态属性
-                interface Istate4 {
-                    name : string,               // name 报错：类型“string”的属性“name”不能赋给字符串索引类型“number”
-                    age? : number,
-                    [propName : string] : number   // 不是any类型
-                                               // 跟上面类型冲突
-                }
-                ```
-                - 报错原因：因为 `name: string` 类型，跟下面的 `[propName : string] : number` 冲突了
-                - 如果改成这样
-                ```ts
-                interface Istate4 {
+                interface Istate3 {
                     name : string,
-                    age? : number,             // age 报错: 类型“number”的属性“age”不能赋给字符串索引类型“string”
-                    [propName : string] : string
+                    age? : number,
+                    [propName : string] : any   // 必须是any类型, propName 变量名可以随意取
                 }
+                var obj3 : Istate3 = {name: 'nick', age: 12, sex: 'male', isMarry: true} // 可随时添加属性
                 ```
-        - ### 3-2-4 只读属性
-            ```ts
-            // 只读属性
-            interface Istate5 {
-                name : string,
-                readonly age : number
-            }
-            var obj4 : Istate5 = {name: 'nick', age: 10}
-            obj4.name = 'li'
-            obj4.age = 111  // age 报错: 只读属性一旦赋值后，就不可更改
-            ```
+                - 问题：为什么 ` [propName : string] : any`  必须是any类型 ?
+                    ```ts
+                    // 动态属性
+                    interface Istate4 {
+                        name : string,               // name 报错：类型“string”的属性“name”不能赋给字符串索引类型“number”
+                        age? : number,
+                        [propName : string] : number   // 不是any类型
+                                                // 跟上面类型冲突
+                    }
+                    ```
+                    - 报错原因：因为 `name: string` 类型，跟下面的 `[propName : string] : number` 冲突了
+                    - 如果改成这样
+                    ```ts
+                    interface Istate4 {
+                        name : string,
+                        age? : number,             // age 报错: 类型“number”的属性“age”不能赋给字符串索引类型“string”
+                        [propName : string] : string
+                    }
+                    ```
+            - ### 3-2-4 只读属性
+                ```ts
+                // 只读属性
+                interface Istate5 {
+                    name : string,
+                    readonly age : number
+                }
+                var obj4 : Istate5 = {name: 'nick', age: 10}
+                obj4.name = 'li'
+                obj4.age = 111  // age 报错: 只读属性一旦赋值后，就不可更改
+                ```
 - ## 3-3 Class 类
+    - [Defining Classes](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/classes)
+        - Classes are in fact `"special functions"`, and just as you can define `function expressions` and `function declarations`, the class syntax has two components: `class expressions` and `class declarations`.
     - ### class 类的修饰符
         > Class 有4个修饰符 `public, private, protected, static`
         - `public` 修饰的 `属性` 或 `方法` 是共有的，可以做任何地方被访问到，默认所有 `属性` 或 `方法` 都是public
