@@ -1475,6 +1475,27 @@
     }
     var arrType4 : IArr = [1,2,3]
     ```
+    - ### 如何给数组写interface ?
+        ```ts
+        // 现在有一个数组 如下, 该如何给它写一个 interface 接口?
+        var result = [
+            { id: 0, label: 'CId', key: 'contentId' },
+            { id: 1, label: 'Modified By', key: 'modifiedBy' },
+            { id: 2, label: 'Modified Date', key: 'modified' },
+            { id: 3, label: 'Status', key: 'contentStatusId' },
+            { id: 4, label: 'Status > Type', key: ['contentStatusId', 'contentTypeId'] },
+            { id: 5, label: 'Title', key: 'title' },
+            { id: 6, label: 'Type', key: 'contentTypeId' },
+            { id: 7, label: 'Type > Status', key: ['contentTypeId', 'contentStatusId'] }
+        ]
+        ```
+        - 答
+        ```ts
+        interface EnumServiceGetOrderBy {
+            [index: number]: { id: number; label: string; key: any };
+        }
+        ```
+        [参考链接](https://stackoverflow.com/questions/25469244/how-can-i-define-an-interface-for-an-array-of-objects)
 - 4.进阶用法
     - 例子1
         ```ts
