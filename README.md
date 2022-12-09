@@ -1,4 +1,5 @@
 # TypeScript
+- [官方中文文档](https://www.tslang.cn/docs/handbook/basic-types.html)
 - TypeScript 入门, 基础语法
 - [TypeScript 官网 typescriptlang.org](https://www.typescriptlang.org/)
 - 视频教程
@@ -20,6 +21,7 @@
 - 目录
     - [第1章 TypeScript简介](#第1章-TypeScript简介)
         - [1-1 TypeScript简介](#1-1-TypeScript简介)
+            - [强类型 与 弱类型](#强类型-与-弱类型)
             - [1-什么是TypeScript](#1-什么是TypeScript)
             - [2-TypeScript-的历史](#2-TypeScript-的历史)
             - [3-TypeScript-出现的原因](#3-TypeScript-出现的原因)
@@ -67,8 +69,84 @@
         - TypeScript 是 JavaScript 的一个 `超集`
         - 基于 `ES6 的语法`
         - 提供 `类型系统` （这也是它之所以称之为 `TypeScript` 的原因）
-        - > 注意: TypeScript 无法在浏览器中运行, 所以 TypeScript 要经过 编辑 (Compile) 成为 JavaScript 才行
+        - > 注意: TypeScript 无法在浏览器中运行, 所以 TypeScript 要经过 编译 (Compile) 成为 JavaScript 才行
         - ![](./img/1-1-1.jpg)
+        - #### 强类型 与 弱类型
+            - > **`强类型`** 与 **`弱类型`** (`类型安全` 的维度去区分的) <br>
+        **`静态类型`** 与 **`动态类型`** (`类型检查` 的维度去区分的)
+            - 类型安全
+                - 在 类型安全 的角度来说, 可以将编程语言分为: 强类型 和 弱类型
+                    - 1974年 美国的两个计算机专家提出的
+                - 定义:
+                    - **`强类型`**: 在语言层面 限制函数的 `实参类型` 必须与 `形参类型` 相同
+                        ```java
+                        class Main {
+                            static void foo (int num) { // 这里要求 入参必须是 整数类型
+                                System.out.printIn(num);
+                            }
+
+                            public static void main(String[] args) {
+                                Main.foo(100); // ok
+
+                                Main.foo("100"); // error "100" is a string
+
+                                Main.foo(Integer.parseInt("100")); // ok
+                            }
+                        }
+                        ```
+                    - 弱类型 语言层面不会限制 实参类型
+                        - 语法上 是不会报错的, 但是运行上 可能存在问题
+                        ```js
+                        function foo (num) { // 这里可能 需要传入的是 number 类型
+                            console.log(num)
+                        }
+
+                        // 但是下面 传入类型 语法都能校验通过
+                        foo(100) // ok
+
+                        foo('100') // ok
+
+                        foo(parseInt('100')) // ok
+                        ```
+                - 由于这种 强弱类型之分 根本不是某一个 权威机构的定义
+                    - 而且，当时这两位 专家也没有给出具体的规则
+                    - 这就导致 后人对这两种类型的 界定的细节 出现了不一样的理解
+                    - 但是有一个共同点
+                    - > `强类型` 有更强的 类型约束, <br>
+                    `弱类型` 几乎没有什么约束 <br>
+                    <br>
+                    `强类型语言` 中 `不允许` 任意的 隐式类型转换 <br>
+                    `弱类型语言` 则 `允许` 任意的数据 隐式类型转换
+                ```js
+                > path.dirname('/foo/bar/baz.txt')
+                '/foo/bar'
+
+                > path.dirname(1111) // 传入 number 类型就报错
+                Thrown:
+                TypeError [ERR_INVALID_TYPE]: The "path" argument must be of type string. Received type number
+                ```
+                - 我们这里所说的 `强类型` 是从语言的语法层面, 就限制了 不允许传入 不同类型的值
+                    - 即使传入了 不同类型的值, 我们在 编译阶段 就会报错
+                    - 而不是 等到运行阶段, 再通过 逻辑判断 去限制
+                - 在 JavaScript 中, 所有 报出的类型错误, 都是在代码层面, 运行时 通过逻辑判断, 手动抛出的
+                - 下面我们 通过 node 源码看到, 上面的报错 确实是由 逻辑判断抛出的
+                    - 而不是 `语言` 或者 `语法` 做出的类型限制
+                    - ![](./img/1-node.jpg)
+                - 下面再来看一下 `强类型` 的例子: python
+                    - 这里的错误 是从语言层面 就报的错
+                    ```python
+                    > '100' - 50
+                    TypeError: unsupported operand type(s) for -: 'str' and 'int'
+
+                    // 意思是不允许在 str 和 int 两个类型之间, 使用 '-' 操作符
+
+
+                    > abs('foo') // 求绝对值, 要求传入 number 类型
+                    TypeError: bad operand type for abc(): 'str'
+                    ````
+            - 变量类型 允许随时改变的特点, 不是强弱类型的差异
+                - 例如 python , 它是强类型语言
+                - 当时它的变量 是可以 随时改变 变量类型的
         <br><br>
 
     - ### 2 TypeScript 的历史
@@ -1387,7 +1465,8 @@
 
 - ## 3-6 Generics 泛型
     - ### 什么是泛型？
-        - 泛型是指 在定义 函数、接口、类 的时候，**`不预先指定具体类型，而在使用的时候再指定类型`** 的一种特性
+        - `换句话说: 泛型, 其实就是 "动态类型"`
+        - 泛型是指 在定义 函数、接口、类 的时候，**`不预先指定具体类型，而在使用的时候 传入什么类型, 就是什么类型`** 的一种特性
     - 先看个例子
         ```ts
         function creatArr (length : number, value : string) : Array<any> {
@@ -1460,7 +1539,7 @@
     var arr1 : string [] = ['1', '2', '3']    // 字符串类型数组
     var arr2 : any    [] = [1,'2', true]      // 任意类型数组
     ```
-- 2.数组范型 `Array<elemType>` 表示法
+- 2.数组泛型 `Array<elemType>` 表示法
     ```ts
     // 数组泛型 Array <elemType>
     var arrType: Array<number> = [1,2,3]
@@ -1495,7 +1574,9 @@
             [index: number]: { id: number; label: string; key: any };
         }
         ```
-        [参考链接](https://stackoverflow.com/questions/25469244/how-can-i-define-an-interface-for-an-array-of-objects)
+        - 其中 `[index: number]` 这个部分又被称为 **`索引签名`**
+        - [可索引的类型](https://www.tslang.cn/docs/handbook/interfaces.html)
+        - [参考链接](https://stackoverflow.com/questions/25469244/how-can-i-define-an-interface-for-an-array-of-objects)
 - 4.进阶用法
     - 例子1
         ```ts
