@@ -9,6 +9,17 @@
 - 小技巧
     - [ts和vscode设置中文错误提示](https://blog.csdn.net/promiseCao/article/details/109578886)
         - vscode设置中文错误提示需要打开设置页面，搜索“typescript local”，然后设置中文就行了
+    - [vscode中自动编译ts](https://www.youtube.com/watch?v=n75eTFRWWtQ&list=PLmOn9nNkQxJEfr-CKr9KoHWFoWj_7glnx&index=5)
+        -  [vscode自动编译 - Vue3+TS 快速上手](https://24kcs.github.io/vue3_study/chapter1/03_HelloWorld.html#vscode%E8%87%AA%E5%8A%A8%E7%BC%96%E8%AF%91)
+        ```
+        1). 生成配置文件tsconfig.json
+            tsc --init
+        2). 修改tsconfig.json配置
+            "outDir": "./js",
+            "strict": false,    
+        3). 启动监视任务: 
+            终端 -> 运行任务 -> 监视tsconfig.json
+        ```
 ----
 - 提示
     - 在项目中的 `pageage.json` 里
@@ -22,6 +33,7 @@
     - [第1章 TypeScript简介](#第1章-TypeScript简介)
         - [1-1 TypeScript简介](#1-1-TypeScript简介)
             - [强类型 与 弱类型](#强类型-与-弱类型)
+            - [【没记.拉勾】03.静态类型与动态类型](#03.静态类型与动态类型)
             - [1-什么是TypeScript](#1-什么是TypeScript)
             - [2-TypeScript-的历史](#2-TypeScript-的历史)
             - [3-TypeScript-出现的原因](#3-TypeScript-出现的原因)
