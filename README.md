@@ -1164,53 +1164,268 @@
     > 接口和类 之间, 叫实现 **`implements`**
 
 
-    - [第4章 类]()
-        - [4-1 基本示例]()
-            > 类: 可以理解为 **`模板`**, 通过模板 可以 **`实例化对象`**
+# 第4章 类
+- ## 4-1 基本示例
+    > 类: 可以理解为 **`模板`**, 通过模板 可以 **`实例化对象`**
 
-            下面看一个使用类的例子：
-            ```ts
+    下面看一个使用类的例子：
+    ```ts
 
-            /* 
-            类的基本定义与使用
-            */
+    /* 
+    类的基本定义与使用
+    */
 
-            class Greeter {
-                // 声明属性
-                name: string
-                age: number
-                message: string
+    class Greeter {
+        // 声明属性
+        name: string
+        age: number
+        message: string
 
-                // 构造方法
-                constructor (message: string) {
-                    this.message = message
-                }
+        // 构造方法
+        constructor (message: string) {
+            this.message = message
+        }
 
-                // 一般方法
-                greet (): string {
-                    return 'Hello ' + this.message
-                }
-            }
+        // 一般方法
+        greet (): string {
+            return 'Hello ' + this.message
+        }
+    }
 
-            // 创建类的实例
-            const greeter = new Greeter('world')
-            // 调用实例的方法
-            console.log(greeter.greet())
+    // 创建类的实例
+    const greeter = new Greeter('world')
+    // 调用实例的方法
+    console.log(greeter.greet())
 
-            ```
-            如果你使用过 C# 或 Java，你会对这种语法非常熟悉。 我们声明一个 Greeter 类。这个类有 3 个成员：一个叫做 message 的属性，一个构造函数和一个 greet 方法。
+    ```
+    如果你使用过 C# 或 Java，你会对这种语法非常熟悉。 我们声明一个 Greeter 类。这个类有 3 个成员：一个叫做 message 的属性，一个构造函数和一个 greet 方法。
 
-            你会注意到，我们在引用任何一个类成员的时候都用了 this。 它表示我们访问的是类的成员。
+    你会注意到，我们在引用任何一个类成员的时候都用了 this。 它表示我们访问的是类的成员。
 
-            后面一行，我们使用 new 构造了 Greeter 类的一个实例。它会调用之前定义的构造函数，创建一个 Greeter 类型的新对象，并执行构造函数初始化它。
+    后面一行，我们使用 new 构造了 Greeter 类的一个实例。它会调用之前定义的构造函数，创建一个 Greeter 类型的新对象，并执行构造函数初始化它。
 
-            最后一行通过 greeter 对象调用其 greet 方法
-        - [4-2 继承]()
-        - [4-3 公共，私有与受保护的修饰符]()
-        - [4-4 readonly 修饰符]()
-        - [4-5 存取器]()
-        - [4-6 静态属性]()
-        - [4-7 抽象类]()
+    最后一行通过 greeter 对象调用其 greet 方法
+- ## 4-2 继承
+    - 写在前面的总结
+        > - 总结: 类和类之间如果要有继承关系, 需要使用extends 关键字
+        > - 子类中可以调用父类中的构造函数, 使用的是super关键字 (包括调用父类中的实例方法, 也可以使用super)
+        > - 子类中可以重写父类的方法
+        > <br>
+        > <br>
+        > <br>
+        > - 继承:类与类之间的关系
+        >     - 继承后类与类之间的叫法:
+        >         - A类继承了B这个类, 那么此时A类叫子类, B类叫基类
+        >         - 子类---->派生类
+        >         - 基类---->超类(父类)
+        >         - 一旦发生了继承的关系,就出现了父子类的关系(叫法)
+
+        <br>
+
+    在 TypeScript 里，我们可以使用常用的面向对象模式。 基于类的程序设计中一种最基本的模式是允许使用继承来扩展现有的类。
+
+    看下面的例子：
+    ```ts
+    /* 
+    类的继承
+    */
+
+    class Animal {
+        run (distance: number) {
+            console.log(`Animal run ${distance}m`)
+        }
+    }
+
+    class Dog extends Animal {
+        cry () {
+            console.log('wang! wang!')
+        }
+    }
+
+    const dog = new Dog()
+    dog.cry() 
+    dog.run(100) // 可以调用从父中继承得到的方法
+    ```
+    这个例子展示了最基本的继承：类从基类中继承了属性和方法。 这里，Dog 是一个 派生类，它派生自 Animal 基类，通过 extends 关键字。 派生类通常被称作子类，基类通常被称作超类。
+
+    因为 Dog 继承了 Animal 的功能，因此我们可以创建一个 Dog 的实例，它能够 cry() 和 run()。
+
+    下面我们来看个更加复杂的例子。
+
+    ```ts
+    class Animal {
+        name: string
+        
+        constructor (name: string) {
+            this.name = name
+        }
+
+        run (distance: number=0) {
+            console.log(`${this.name} run ${distance}m`)
+        }
+
+    }
+
+    class Snake extends Animal {
+        constructor (name: string) {
+            // 调用父类型构造方法
+            super(name)
+        }
+
+        // 重写父类型的方法
+        run (distance: number=5) {
+            console.log('sliding...')
+            super.run(distance)
+        }
+    }
+
+    class Horse extends Animal {
+        constructor (name: string) {
+            // 调用父类型构造方法
+            super(name)
+        }
+
+        // 重写父类型的方法
+        run (distance: number=50) {
+            console.log('dashing...')
+            // 调用父类型的一般方法
+            super.run(distance)
+        }
+
+        xxx () {
+            console.log('xxx()')
+        }
+    }
+
+    const snake = new Snake('sn')
+    snake.run()
+
+    const horse = new Horse('ho')
+    horse.run()
+
+    // 父类型引用指向子类型的实例 ==> 多态
+    const tom: Animal = new Horse('ho22')
+    tom.run()
+
+    /* 如果子类型没有扩展的方法, 可以让子类型引用指向父类型的实例 */
+    const tom3: Snake = new Animal('tom3')
+    tom3.run()
+    /* 如果子类型有扩展的方法, 不能让子类型引用指向父类型的实例 */
+    // const tom2: Horse = new Animal('tom2')
+    // tom2.run()
+    ```
+
+    这个例子展示了一些上面没有提到的特性。 这一次，我们使用 extends 关键字创建了 Animal的两个子类：Horse 和 Snake。
+
+    与前一个例子的不同点是，派生类包含了一个构造函数，它 必须调用 super()，它会执行基类的构造函数。 而且，在构造函数里访问 this 的属性之前，我们 一定要调用 super()。 这个是 TypeScript 强制执行的一条重要规则。
+
+    这个例子演示了如何在子类里可以重写父类的方法。Snake类和 Horse 类都创建了 run 方法，它们重写了从 Animal 继承来的 run 方法，使得 run 方法根据不同的类而具有不同的功能。注意，即使 tom 被声明为 Animal 类型，但因为它的值是 Horse，调用 tom.run(34) 时，它会调用 Horse 里重写的方法。
+
+    ```
+    sliding...
+    sn run 5m
+    dashing...
+    ho run 50m
+    ```
+
+
+
+- ## 4-3 多态
+    - > 多态 就是 **`同一个行为 在不同的对象上 有不同表现形式`**。
+    - 多态就是同一个接口，使用不同的实例而执行不同操作，如图所示。
+    ```ts
+    // 多态:父类型的引用指向了子类型的对象,不同类型的对象针对相同的方法,产生了不同的行为 
+
+    // 定义一个父类
+    class Animal {
+        // 定义一个属性
+        name: string
+        // 定义一个构造函数
+        constructor(name: string) {
+            // 更新属性值
+            this.name = name
+        }
+        // 实例方法
+        run(distance: number = 0) {
+            console.log(`跑了${distance} 这么远的距离, this.name`)
+        }
+    }
+    // 定义一个子类
+    class Dog extends Animal {
+        // 构造函数
+        constructor(name: string) {
+            // 调用父类的构造函数,实现子类中属性的初始化操作
+            super(name)
+        }
+        // 实例方法,重写父类的实例方法
+        run(distance: number = 5) {
+            console.log(`跑了${distance} 这么远的距离, this.name`)
+        }
+    }
+
+
+
+    class Pig extends Animal {
+        // 构造函数
+        constructor (name: string){
+            // 调用父类的构造函数,实现子类中属性的初始化操作
+            super(name)
+        }
+        // 实例方法,重写父类中的实例方法
+        run(distance: number = 10) {
+            console.log(跑了${distance}米这么远的距离,this.name)
+        }
+    }
+
+    // 实例化父类对象
+    const ani: Animal = new Animal(动物)
+    ani.run()
+    // 实例化子类对象
+    const dog: Dog = new Dog('大黄')
+    dog.run()
+
+    // 实例化子类对象
+    const pig: Pig = new Pig('八戒')
+    pig.run()
+
+    console.log(': ======')
+    // 父类和子类的关系:父子关系,此时,父类类型创建子类的对象
+
+    const dog1: Animal = new Dog('小黄')
+    dog1.run()
+    const pig1: Animal = new Pig('小猪')
+    pig1.run()
+
+
+    console.log(': ======')
+    // 该函数需要的参数是Animal类型的
+    function showRun (ani: Animal) {
+        ani.run()
+    }
+    showRun (dog1)
+    showRun (pig1)
+
+
+
+
+
+    // 跑了0 米这么远的距离 动物 
+    // 跑了5 米这么远的距离 大黄 
+    // 跑了10 米这么远的距离 八戒
+    // ======
+
+    // 跑了5 米这么远的距离 小黄
+    // 跑了10 米这么远的距离 小猪
+    // ======
+
+    // 跑了5 米这么远的距离 小黄
+    // 跑了10 米这么远的距离 小猪
+    ```
+- ## 4-3 公共，私有与受保护的修饰符
+- ## 4-4 readonly 修饰符
+- ## 4-5 存取器
+- ## 4-6 静态属性
+- ## 4-7 抽象类
 
 
 
