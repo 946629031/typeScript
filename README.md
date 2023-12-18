@@ -1422,7 +1422,110 @@
     // 跑了10 米这么远的距离 小猪
     ```
 - ## 4-3 公共，私有与受保护的修饰符
+
+
+    > 修饰符(类中的成员的修饰符): 主要是描述类中的成员(属性, 构造函数, 方法)的 **`可访问性`** <br><br>
+    > 类中的成员都有自己的默认的访问修饰符 <br>
+    > - **`public`** 修饰符---公共的, 类中成员默认的修饰符, 代表的是公共的, 任何位置都可以访问类中的成员 <br>
+    > - **`protected`** 修饰符----受保护的, 类中的成员如果使用protected来修饰, 那么`外部是无法访问`这个成员数据的, 当然, `子类中是可以访问`该成员数据的 <br>
+    > - **`private`** 修饰符---私有的, 类中的成员如果使用private来修饰, 那么外部是无法访问这个成员数据的, 当然, 子类中也是无法访问该成员数据的 <br>
+
+    - ### 默认为 public
+        - 在上面的例子里，我们可以自由的访问程序里定义的成员。 如果你对其它语言中的类比较了解，就会注意到我们在之前的代码里并没有使用 public 来做修饰；例如，C# 要求必须明确地使用 public 指定成员是可见的。 在 TypeScript 里，成员都默认为 public。
+
+        - 你也可以明确的将一个成员标记成 public。 我们可以用下面的方式来重写上面的 Animal 类：
+
+    - ### #理解 private
+        - 当成员被标记成 private 时，它就不能在声明它的类的外部访问。
+
+    - ### #理解 protected
+        - protected 修饰符与 private 修饰符的行为很相似，但有一点不同，protected成员在派生类中仍然可以访问。例如：
+        ```ts
+        /* 
+        访问修饰符: 用来描述类内部的属性/方法的可访问性
+        public: 默认值, 公开的外部也可以访问
+        private: 只能类内部可以访问
+        protected: 类内部和子类可以访问
+        */
+
+        class Animal {
+            public name: string
+
+            public constructor (name: string) {
+                this.name = name
+            }
+
+            public run (distance: number=0) {
+                console.log(`${this.name} run ${distance}m`)
+            }
+        }
+
+        class Person extends Animal {
+            private age: number = 18
+            protected sex: string = '男'
+
+            run (distance: number=5) {
+                console.log('Person jumping...')
+                super.run(distance)
+            }
+        }
+
+        class Student extends Person {
+            run (distance: number=6) {
+                console.log('Student jumping...')
+
+                console.log(this.sex) // 子类能看到父类中受保护的成员
+                // console.log(this.age) //  子类看不到父类中私有的成员
+
+                super.run(distance)
+            }
+        }
+
+        console.log(new Person('abc').name) // 公开的可见
+        // console.log(new Person('abc').sex) // 受保护的不可见
+        // console.log(new Person('abc').age) //  私有的不可见
+        ```
 - ## 4-4 readonly 修饰符
+    - 写在前面的总结
+        > readonly修饰符: 首先是一个关键字, 对类中的属性成员进行修饰, 修饰后, 该属性成员, 就不能在外部被随意的修改了<br><br>
+        > 构造函数中, 可以对只读的属性成员的数据进行修改 <br><br>
+        > - 修饰 constructor 的参数
+        >   - 构造函数中的参数可以使用readonly进行修饰, 一旦修饰了, 那么该类中就有了这个只读的成员属性了, 外部可以访问, 但是不能修改 <br><br>
+        >   -  构造函数中的参数可以使用 `public` 及 `privte` 和 `protected` 进行修饰, 无论是哪个进行修饰, `该类中都会自动的添加这么一个属性成员`
+        <br>
+
+    你可以使用 readonly 关键字将属性设置为只读的。 只读属性必须在声明时或构造函数里被初始化。
+
+    ```ts
+    class Person {
+        readonly name: string = 'abc'
+        constructor(name: string) {
+            this.name = name
+        }
+    }
+
+    let john = new Person('John')
+    // john.name = 'peter' // error
+    ```
+
+    - ### 参数属性
+        在上面的例子中，我们必须在 Person 类里定义一个只读成员 name 和一个参数为 name 的构造函数，并且立刻将 name 的值赋给 this.name，这种情况经常会遇到。 参数属性可以方便地让我们在一个地方定义并初始化一个成员。 下面的例子是对之前 Person 类的修改版，使用了参数属性：
+
+        ```ts
+        class Person2 {
+            constructor(readonly name: string) {
+            }
+        }
+
+        const p = new Person2('jack')
+        console.log(p.name)
+        ```
+        注意看我们是如何舍弃参数 name，仅在构造函数里使用 readonly name: string 参数来创建和初始化 name 成员。 我们把声明和赋值合并至一处。
+
+        参数属性通过给构造函数参数前面添加一个访问限定符来声明。使用 private 限定一个参数属性会声明并初始化一个私有成员；对于 public 和 protected 来说也是一样。
+
+
+
 - ## 4-5 存取器
 - ## 4-6 静态属性
 - ## 4-7 抽象类
