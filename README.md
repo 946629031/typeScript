@@ -65,13 +65,13 @@
         - [3-6 一个类可以实现多个接口](#3-6-一个类可以实现多个接口)
         - [3-7 接口继承接口](#3-7-接口继承接口)
     - [第4章 类]()
-        - [4-1 基本示例]()
-        - [4-2 继承]()
-        - [4-3 公共，私有与受保护的修饰符]()
-        - [4-4 readonly 修饰符]()
-        - [4-5 存取器]()
-        - [4-6 静态属性]()
-        - [4-7 抽象类]()
+        - [4-1 基本示例](#4-1-基本示例)
+        - [4-2 继承](#4-2-继承)
+        - [4-3 公共，私有与受保护的修饰符](#4-3-公共-私有与受保护的修饰符)
+        - [4-4 readonly 修饰符](#4-4-readonly-修饰符)
+        - [4-5 存取器 getters/setters](#4-5-存取器-getterssetters)
+        - [4-6 静态属性](#4-6-静态属性)
+        - [4-7 抽象类](#4-7-抽象类)
     - [第5章 函数]()
         - [5-1 基本示例]()
         - [5-2 函数类型]()
@@ -1526,10 +1526,89 @@
 
 
 
-- ## 4-5 存取器
-- ## 4-6 静态属性
-- ## 4-7 抽象类
+- ## 4-5 存取器 getters/setters
+    > 存取器 实际上 就是 `get/set` 修饰符 <br>
+    > 存取器 就是 属性的 `getter` 和 `setter` 方法
 
+    TypeScript 支持通过 `getters/setters` 来截取对对象成员的访问。 它能帮助你有效的控制对对象成员的访问。
+
+    下面来看如何把一个简单的类改写成使用 `get` 和 `set。` 首先，我们从一个没有使用存取器的例子开始。
+
+    ```ts
+    class Person {
+        firstName: string = 'A'
+        lastName: string = 'B'
+
+        get fullName () {
+            return this.firstName + '-' + this.lastName
+        }
+        set fullName (value) {
+            const names = value.split('-')
+            this.firstName = names[0]
+            this.lastName = names[1]
+        }
+    }
+
+    const p = new Person()
+    console.log(p.fullName)
+
+    p.firstName = 'C'
+    p.lastName =  'D'
+    console.log(p.fullName)
+
+    p.fullName = 'E-F'
+    console.log(p.firstName, p.lastName)
+    ```
+
+- ## 4-6 静态属性
+    到目前为止，我们只讨论了类的实例成员，那些仅当类被实例化的时候才会被初始化的属性。 我们也可以创建类的静态成员，这些属性存在于类本身上面而不是类的实例上。 在这个例子里，我们使用 `static` 定义 `origin`，因为它是所有网格都会用到的属性。 每个实例想要访问这个属性的时候，都要在 `origin` 前面加上类名。 如同在实例属性上使用 `this.xxx` 来访问属性一样，这里我们使用 `Grid.xxx` 来访问静态属性。
+
+    ```ts
+    /* 
+    静态属性, 是类对象的属性
+    非静态属性, 是类的实例对象的属性
+    */
+
+    class Person {
+        name1: string = 'A'
+        static name2: string = 'B'
+    }
+
+    console.log(Person.name2)
+    console.log(new Person().name1)
+    ```
+
+- ## 4-7 抽象类
+    `抽象类做为其它派生类的基类使用`。 它们不能被实例化。不同于接口，抽象类可以包含成员的实现细节。 **`abstract`** 关键字是用于定义抽象类和在抽象类内部定义抽象方法。
+
+    ```ts
+    /* 
+    抽象类
+    不能创建实例对象, 只有实现类才能创建实例
+    可以包含未实现的抽象方法
+    */
+
+    abstract class Animal {
+
+        abstract cry () // 抽象方法
+
+        run () {
+            console.log('run()')
+        }
+    }
+
+    // 实现类
+    // 通过extends 使用抽象类
+    class Dog extends Animal {
+        cry () {
+            console.log(' Dog cry()')
+        }
+    }
+
+    const dog = new Dog()
+    dog.cry()
+    dog.run()
+    ```
 
 
 # 第3章 TypeScript 面向对象
