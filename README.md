@@ -1611,6 +1611,56 @@
     ```
 
 
+
+
+# 第5章 函数
+- ## 5-1 基本示例
+    函数是 JavaScript 应用程序的基础，它帮助你实现抽象层，模拟类，信息隐藏和模块。在 TypeScript 里，虽然已经支持类，命名空间和模块，但函数仍然是主要的定义行为的地方。TypeScript 为 JavaScript 函数添加了额外的功能，让我们可以更容易地使用。
+
+    - 基本示例
+
+        和 JavaScript 一样，TypeScript 函数可以创建有名字的函数和匿名函数。你可以随意选择适合应用程序的方式，不论是定义一系列 API 函数还是只使用一次的函数。
+
+        通过下面的例子可以迅速回想起这两种 JavaScript 中的函数：
+
+        ```ts
+        // 命名函数
+        function add(x, y) {
+            return x + y
+        }
+
+        // 匿名函数
+        let myAdd = function(x, y) { 
+            return x + y;
+        }
+        ```
+- ## 5-2 函数类型
+    - ### 为函数定义类型
+        让我们为上面那个函数添加类型：
+        ```ts
+        function add(x: number, y: number): number {
+            return x + y
+        }
+
+        let myAdd = function(x: number, y: number): number { 
+            return x + y
+        }
+        ```
+        我们可以给每个参数添加类型之后再为函数本身添加返回值类型。TypeScript 能够根据返回语句自动推断出返回值类型。
+
+    - ### 书写完整函数类型
+        现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。
+
+        ```ts
+        let myAdd2: (x: number, y: number) => number = function(x: number, y: number): number {
+            return x + y
+        }
+        ```
+
+- ## 5-3 可选参数和默认参数
+- ## 5-4 函数重载
+
+    
 # 第3章 TypeScript 面向对象
 - ## 3-0 面向对象 概念
     - ### 为什么会出现面向对象, 这个概念?
