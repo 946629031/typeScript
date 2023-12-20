@@ -1082,9 +1082,100 @@
             ```
 
 # 第3章 接口 Interface
+TypeScript 的核心原则之一是对值所具有的结构进行类型检查。我们使用接口（Interfaces）来定义对象的类型。`接口是对象的状态(属性)和行为(方法)的抽象(描述)`
 - ## 3-1 接口初探
+    需求: 创建人的对象, 需要对人的属性进行一定的约束
+
+    ```ts
+    id是number类型, 必须有, 只读的
+    name是string类型, 必须有
+    age是number类型, 必须有
+    sex是string类型, 可以没有
+    ```
+    下面通过一个简单示例来观察接口是如何工作的：
+    ```ts
+    /* 
+    在 TypeScript 中，我们使用接口（Interfaces）来定义对象的类型
+    接口: 是对象的状态(属性)和行为(方法)的抽象(描述)
+    接口类型的对象
+        多了或者少了属性是不允许的
+        可选属性: ?
+        只读属性: readonly
+    */
+
+    /* 
+    需求: 创建人的对象, 需要对人的属性进行一定的约束
+        id是number类型, 必须有, 只读的
+        name是string类型, 必须有
+        age是number类型, 必须有
+        sex是string类型, 可以没有
+    */
+
+    // 定义人的接口
+    interface IPerson {
+        id: number
+        name: string
+        age: number
+        sex: string
+    }
+
+    const person1: IPerson = {
+        id: 1,
+        name: 'tom',
+        age: 20,
+        sex: '男'
+    }
+    ```
+    类型检查器会查看对象内部的属性是否与IPerson接口描述一致, 如果不一致就会提示类型错误。
+
+
 - ## 3-2 可选属性
+    接口里的属性不全都是必需的。 有些是只在某些条件下存在，或者根本不存在。
+    ```ts
+    interface IPerson {
+        id: number
+        name: string
+        age: number
+        sex?: string
+    }
+    ```
+    带有可选属性的接口与普通的接口定义差不多，只是在可选属性名字定义的后面加一个 `?` 符号。
+
+    可选属性的好处之一是可以对可能存在的属性进行预定义，好处之二是可以捕获引用了不存在的属性时的错误。
+
+    ```ts
+    const person2: IPerson = {
+        id: 1,
+        name: 'tom',
+        age: 20,
+        // sex: '男' // 可以没有
+    }
+    ```
 - ## 3-3 只读属性
+    一些对象属性只能在对象刚刚创建的时候修改其值。 你可以在属性名前用 readonly 来指定只读属性:
+    ```ts
+    interface IPerson {
+        readonly id: number
+        name: string
+        age: number
+        sex?: string
+    }
+    ```
+    一旦赋值后再也不能被改变了。
+
+    ```ts
+    const person2: IPerson = {
+        id: 2,
+        name: 'tom',
+        age: 20,
+        // sex: '男' // 可以没有
+        // xxx: 12 // error 没有在接口中定义, 不能有
+    }
+    person2.id = 2 // error
+    ```
+    - ### readonly vs const
+        - 最简单判断该用 `readonly` 还是 `const` 的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用 const，若做为属性则使用 `readonly。`
+
 - ## 3-4 函数类型
     > 通过接口的方式, 定义函数的形状 (作为函数类型来使用)
     - 接口能够描述 JavaScript 中对象拥有的各种各样的外形。 除了描述带有属性的普通对象外，接口也可以描述函数类型。
@@ -1097,7 +1188,7 @@
         */
 
         interface SearchFunc {
-        (source: string, subString: string): boolean // 这一行就是 调用签名
+            (source: string, subString: string): boolean // 这一行就是 调用签名
         }
         ```
 
@@ -1105,7 +1196,7 @@
 
         ```ts
         const mySearch: SearchFunc = function (source: string, sub: string): boolean {
-        return source.search(sub) > -1
+            return source.search(sub) > -1
         }
 
         console.log(mySearch('abcd', 'bc'))
@@ -1741,7 +1832,32 @@
     console.log(arr1[0].toFixed(), arr2[0].split(''))
     ```
 - ## 6-2 使用函数泛型
+    ```ts
+    function createArray2 <T> (value: T, count: number) {
+        const arr: Array<T> = []
+        for (let index = 0; index < count; index++) {
+            arr.push(value)
+        }
+        return arr
+    }
+    const arr3 = createArray2<number>(11, 3)
+    console.log(arr3[0].toFixed())
+    // console.log(arr3[0].split('')) // error
+
+    const arr4 = createArray2<string>('aa', 3)
+    console.log(arr4[0].split(''))
+    // console.log(arr4[0].toFixed()) // error
+    ```
+
 - ## 6-3 多个泛型参数的函数
+    ```ts
+    function swap <K, V> (a: K, b: V): [K, V] {
+        return [a, b]
+    }
+
+    const result = swap<string, number>('abc', 123)
+    console.log(result[0].length, result[1].toFixed())
+    ```
 - ## 6-4 泛型接口
 - ## 6-5 泛型类
 - ## 6-6 泛型约束
