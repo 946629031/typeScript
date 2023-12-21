@@ -1859,6 +1859,51 @@ TypeScript 的核心原则之一是对值所具有的结构进行类型检查。
     console.log(result[0].length, result[1].toFixed())
     ```
 - ## 6-4 泛型接口
+    > 泛型接口是 TypeScript 中的一种特殊类型的接口，允许在接口定义中使用泛型参数。通过泛型接口，你可以创建通用的接口，使其可以适应多种数据类型。
+    - 在定义接口时, 为接口中的属性或方法定义泛型类型
+    - 在使用接口时, 再指定具体的泛型类型
+
+    ```ts
+    interface IbaseCRUD <T> {
+        data: T[]
+        add: (t: T) => void
+        getById: (id: number) => T
+    }
+
+    class User {
+        id?: number; //id主键自增
+        name: string; //姓名
+        age: number; //年龄
+
+        constructor (name, age) {
+            this.name = name
+            this.age = age
+        }
+    }
+
+    class UserCRUD implements IbaseCRUD <User> {
+        data: User[] = []
+        
+        add(user: User): void {
+            user = {...user, id: Date.now()}
+            this.data.push(user)
+            console.log('保存user', user.id)
+        }
+
+        getById(id: number): User {
+            return this.data.find(item => item.id===id)
+        }
+    }
+
+
+    const userCRUD = new UserCRUD()
+
+    userCRUD.add(new User('tom', 12))
+    userCRUD.add(new User('tom2', 13))
+
+    console.log(userCRUD.data)
+    ```
+
 - ## 6-5 泛型类
 - ## 6-6 泛型约束
 
